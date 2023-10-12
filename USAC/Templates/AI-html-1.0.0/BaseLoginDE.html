@@ -58,9 +58,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="{% url 'Docentes' %}" class="nav-item nav-link">Docentes</a>
-                        <a href="{% url 'nerds' %}" class="nav-item nav-link">Estudiantes</a>
-                        <a href="{% url 'login' %}" class="nav-item nav-link">Iniciar Sesión</a>
+                        <a href="{% url 'IniciarD' %}" class="nav-item nav-link">Docentes</a>
+                        <a href="{% url 'IniciarE' %}" class="nav-item nav-link">Estudiantes</a>
                     </div>
                 </div>
             </nav>
@@ -69,6 +68,37 @@
     <!-- Navbar End -->
 
     {%block content %}
+
+
+    <!-- Full Screen Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content" style="background: rgba(20, 24, 62, 0.7);">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn btn-square bg-white btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="input-group" style="max-width: 600px;">
+                        <input type="text" class="form-control bg-transparent border-light p-3"
+                            placeholder="Type search keyword">
+                        <button class="btn btn-light px-4"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Full Screen Search End -->
+
+
+
+
+
+
+
+
+
+
 
 	{% endblock %}
 
