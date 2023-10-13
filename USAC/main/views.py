@@ -27,29 +27,28 @@ def catalogo_de_carreras(request):
 
 def portal(request):
 
-    #if request.method=="POST":
-       # form = AuthenticationForm(request, data=request.POST)
-        #if form.is_valid():
-           # username=form.cleaned_data.get("username")
-           # password=form.cleaned_data.get("password")
-            #usuario = authenticate(request=request, username=username, password=password)
-            #if usuario is not None:
-              #  login(request, usuario)
-               # reset(username=username)
-                 
-               # return redirect('nerds')
-           # else:
-                #messages.error(request,"Usuario no válido")
-        #else:
-            #messages.error(request,"Información no válida")
+    if request.method=="POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username=form.cleaned_data.get("username")
+            password=form.cleaned_data.get("password")
+            usuario = authenticate(request=request, username=username, password=password)
+            if usuario is not None:
+                login(request, usuario)
+                reset(username=username)
+                return redirect('home')
+            else:
+                messages.error(request,"Usuario no válido")
+        else:
+            messages.error(request,"Información no válida")
 
-    #form = AuthenticationForm()
-    return render(request, "AI-html-1.0.0/LoginDocentes.html")
+    form = AuthenticationForm()
+    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form":form})
    
 
-#def cerrar_sesion(request):
-    #logout(request)
-    #return redirect('home')
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('home')
 
 
 def iniciar_sesion(request):
