@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-
+from django.contrib.auth.models import Group
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
@@ -25,7 +25,7 @@ def catalogo_de_carreras(request):
 
 
 
-def portal(request):
+def iniciar_sesion_docentes(request):
 
     if request.method=="POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -33,25 +33,25 @@ def portal(request):
             username=form.cleaned_data.get("username")
             password=form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            if usuario is not None:
+            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return redirect('home')
+                return render(request, "AI-html-1.0.0/home.html", {"form":form})
             else:
                 messages.error(request,"Usuario no válido")
         else:
             messages.error(request,"Información no válida")
 
-    form = AuthenticationForm()
-    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form":form})
+    #form = AuthenticationForm()
+    return render(request, "AI-html-1.0.0/LoginDocentes.html")
    
 
-def cerrar_sesion(request):
-    logout(request)
-    return redirect('home')
+#def cerrar_sesion(request):
+    #logout(request)
+    #return redirect('home')
 
 
-def iniciar_sesion(request):
+def iniciar_sesion_estudiantes(request):
 
     if request.method=="POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -59,10 +59,12 @@ def iniciar_sesion(request):
             username=form.cleaned_data.get("username")
             password=form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            if usuario is not None:
+            
+            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiantes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return redirect('home')
+                return render(request, "AI-html-1.0.0/home.html", {"form":form})
+                
             else:
                 messages.error(request,"Usuario no válido")
         else:
@@ -73,6 +75,7 @@ def iniciar_sesion(request):
 
 def cerrar_sesion(request):
     logout(request)
+
     return redirect('home')
 
 class VRegistro(View):
@@ -109,7 +112,7 @@ class VRegistro(View):
 
             messages.success(request,"Registro exitoso")
 
-            return redirect('login')
+            return redirect('home')
         else:
             for msg in form.error_messages:
                 messages.error(request,form.error_messages[msg])

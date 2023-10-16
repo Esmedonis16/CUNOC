@@ -8,10 +8,10 @@ urlpatterns = [
     path('carreras/', views.catalogo_de_carreras, name='ingenieria'),
     path('registro/', VRegistro.as_view(), name="registro"),
     
-    path('LoginEstudiantes/', views.iniciar_sesion, name="InicioDE"), 
+    path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name="InicioDE"), 
     
-    path('LoginDocentes/', views.portal, name='IniciarD'),
-    path('LoginEstudiantes/', views.iniciar_sesion, name='IniciarE'),
+    path('LoginDocentes/', views.iniciar_sesion_docentes, name='IniciarD'),
+    path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='IniciarE'),
     
 
 ]

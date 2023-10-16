@@ -69,38 +69,16 @@ class CustomUserCreationForm(UserCreationForm):
     cui = forms.IntegerField(label='CUI', help_text='Código Único de Identificación CUI')
     profile_imagen = forms.ImageField(label='Foto de perfil')
 
-    
-    # def email_clean(self):  
-    #     email = self.cleaned_data['email'].lower()  
-    #     new = User.objects.filter(email = email)  
-    #     if new.count():  
-    #         raise ValidationError("El email ya esta vinculado con otra cuenta, utiliza uno diferente.")  
-    #     return email 
-
-
-    def email_clean(self):
-        # email = self.cleaned_data["email"]
+    def clean_email(self):
         email = self.cleaned_data.get('email')
         new = User.objects.filter(email = email)  
-        if new.count():  
+        if new.exists():  
             raise ValidationError("El email ya esta vinculado con otra cuenta, utiliza uno diferente.")  
         return email 
-        # try:
-        #     User._default_manager.get(email=email)
-        # except User.DoesNotExist:
-        #     return email
-        # raise forms.ValidationError('email duplicado')
-
-    # def email_clean(self):  
-    #     email = self.cleaned_data.get('email')  
-    #     if User.objects.filter(email=email).exists():
-    #         raise forms.ValidationError(u'El email ya esta vinculado con otra cuenta, utiliza uno diferente')
-    #     return email 
-
-# def clean_email(self):
-#     email = self.cleaned_data["email"]
-#     try:
-#         User._default_manager.get(email=email)
-#     except User.DoesNotExist:
-#         return email
-#     raise forms.ValidationError('El email ya esta vinculado con otra cuenta, utiliza uno diferente')
+    
+    #def clean_cui(self):
+        #cui = self.cleaned_data.get('cui')
+        #new = User.objects.filter(cui=cui) 
+        #if new.exists():
+            #raise ValidationError("El CUI ya está vinculado con otra cuenta. Utiliza otro CUI.")
+        #return cui
