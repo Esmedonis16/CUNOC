@@ -32,6 +32,9 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Desplegable -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/desplegable.css' %}">
 </head>
 
 <body>
@@ -61,7 +64,18 @@
                         <a href="{% url 'home' %}" class="nav-item nav-link ">Página Principal</a>
                         <a href="{% url 'ingenieria' %}" class="nav-item nav-link ">Catálogo de Carreras</a>
                         <a href="{% url 'registro' %}" class="nav-item nav-link">Registarse</a>
-                        <a href="{% url 'InicioDE' %}" class="nav-item nav-link">Inicio de Sesion</a>
+
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a href="" class="nav-item nav-link">Inicio de Sesion</a>
+                                <ul>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'IniciarD' %}">Docentes</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'IniciarE' %}">Estudiantes</a></li>
+                                    <!-- Añade más elementos según sea necesario -->
+                                </ul>
+
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>
