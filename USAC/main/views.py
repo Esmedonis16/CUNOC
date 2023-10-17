@@ -36,14 +36,14 @@ def iniciar_sesion_docentes(request):
             if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return render(request, "AI-html-1.0.0/home.html", {"form":form})
+                return render(request, "AI-html-1.0.0/home.html", {"form":form})          
             else:
                 messages.error(request,"Usuario no válido")
         else:
             messages.error(request,"Información no válida")
 
-    #form = AuthenticationForm()
-    return render(request, "AI-html-1.0.0/LoginDocentes.html")
+    form = AuthenticationForm()
+    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form":form})
    
 
 #def cerrar_sesion(request):
@@ -59,12 +59,10 @@ def iniciar_sesion_estudiantes(request):
             username=form.cleaned_data.get("username")
             password=form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            
             if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiantes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return render(request, "AI-html-1.0.0/home.html", {"form":form})
-                
+                return render(request, "AI-html-1.0.0/home.html", {"form":form})          
             else:
                 messages.error(request,"Usuario no válido")
         else:
