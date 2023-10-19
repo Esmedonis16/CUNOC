@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'axes',
     'crispy_bootstrap4',
+    
 
 ]
 
@@ -88,6 +89,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'axes.middleware.AxesMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Ejemplo.urls'

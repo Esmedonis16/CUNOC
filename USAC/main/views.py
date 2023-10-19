@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.http import HttpResponse
 
 from axes.utils import reset
 from django.contrib import messages
@@ -14,7 +15,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .forms import CustomUserCreationForm  
 from django.views.generic import View
-from main.models import allusuarios
+from main.models import allusuarios, docentes
 from django.template.loader import render_to_string
 
 User = get_user_model()
@@ -33,27 +34,47 @@ def catalogo_de_carreras(request):
 
 
 
-
-def iniciar_sesion_docentes(request):
-
-    if request.method=="POST":
+def custom_login(request):
+    if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username=form.cleaned_data.get("username")
-            password=form.cleaned_data.get("password")
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
-                login(request, usuario)
-                reset(username=username)
-                return render(request, "AI-html-1.0.0/PortalDocentes.html", {"form":form, "cliente": allusuarios.objects.get(username=username)})          
+            if not usuario:
+            # Registra un intento de inicio de sesión fallido aquí
+                try:
+                    user_docente = docentes.objects.get(username=username)
+                    user_docente.login_attempts -= 1
+                    if user_docente.login_attempts <= 0:
+                        user_docente.account_locked = True
+                    user_docente.save()
+                except docentes.DoesNotExist:
+                    pass
+
+            if usuario:
+                try:
+                    user_docente = docentes.objects.get(user=usuario)
+                    if user_docente.account_locked:
+                        messages.error(request, "Tu cuenta ha sido bloqueada debido a múltiples intentos fallidos de inicio de sesión.")
+                        return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form": form})
+
+                    if usuario.is_superuser and user_docente in usuario.groups.all():
+                        login(request, usuario)
+                        # Resto de tu código
+
+                    else:
+                        messages.error(request, "Usuario no válido o no es un docente")
+
+                except docentes.DoesNotExist:
+                    messages.error(request, "Usuario no es un docente válido")
+
             else:
-                messages.error(request,"Usuario no válido")
-        else:
-            messages.error(request,"Información no válida")
+                messages.error(request, "Credenciales no válidas")
 
     form = AuthenticationForm()
-    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form":form})
-   
+    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form": form})
+
 
 #def cerrar_sesion(request):
     #logout(request)
