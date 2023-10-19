@@ -19,11 +19,6 @@ from main.models import allusuarios, docentes
 from django.template.loader import render_to_string
 
 
-import sys
-sys.path.append('G:/Mi unidad/8vo Semestre/Proyectos/CUNOC/USAC') 
-from Ejemplo.wsgi import *
-from main.tests import send_email
-
 
 
 User = get_user_model()
@@ -114,6 +109,9 @@ def cerrar_sesion(request):
 
     return redirect('home')
 
+
+
+
 class VRegistro(View):
 
     def get(self, request):
@@ -147,14 +145,6 @@ class VRegistro(View):
             nuevo_usuario.save()
 
             messages.success(request,"Registro exitoso")
-            
-            # def mi_vista(request):
-            
-            # # Pide al usuario que ingrese el destinatario
-            #     Destinatario = request.user.email
-
-            # # Llama a la función send_email con el destinatario proporcionado
-            #     send_email(Destinatario)
             
             return redirect('home')
         else:
