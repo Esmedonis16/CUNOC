@@ -164,3 +164,16 @@ CRISPY_TEMPLATE_PACK='bootstrap4'
 AXES_FAILURE_LIMIT = 10
 AXES_LOCKOUT_CALLABLE = "main.views.lockout"
 AXES_ONLY_USER_FAILURES	= True
+
+AXES_LOCKOUT_CALLABLE = "autenticacion.views.lockout"
+AXES_ONLY_USER_FAILURES	= True
+
+#Emails
+
+#EMAIL_BACKEND="django.core.mail.backends.smtp.emailBackEnd"
+EMAIL_HOST="smtp.gmail.com"
+#EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER="academiacunoc@gmail.com"
+EMAIL_HOST_PASSWORD="jyjt qwnt ssop tuda"
+
