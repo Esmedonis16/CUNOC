@@ -1,7 +1,8 @@
 from django.urls import path 
 from . import views
-
+from django.conf import settings
 from .views import VRegistro
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('home/', views.home, name='home'),
@@ -13,5 +14,12 @@ urlpatterns = [
     path('LoginDocentes/', views.iniciar_sesion_docentes, name='IniciarD'),
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='IniciarE'),
     
-
+    path('PortalEstudiantes/', views.PE, name='PE'),
+    
+    path('PortalDocentes/', views.PD, name='PD'),
+    
+   
 ]
+
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

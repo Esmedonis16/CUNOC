@@ -15,11 +15,18 @@ from django import forms
 from .forms import CustomUserCreationForm  
 from django.views.generic import View
 from main.models import allusuarios
+from django.template.loader import render_to_string
 
 User = get_user_model()
 
 def home(request):
     return render(request, 'AI-html-1.0.0/home.html')
+
+def PE(request):
+    return render(request, 'AI-html-1.0.0/PortalEstudiantes.html')
+
+def PD(request):
+    return render(request, 'AI-html-1.0.0/PortalDocentes.html')
 
 def catalogo_de_carreras(request):
     return render(request, 'AI-html-1.0.0/carreras.html')
@@ -33,12 +40,12 @@ def iniciar_sesion_docentes(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username=form.cleaned_data.get("username")
-            #password=form.cleaned_data.get("password")
-            usuario = authenticate(request=request, username=username)
+            password=form.cleaned_data.get("password")
+            usuario = authenticate(request=request, username=username, password=password)
             if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return render(request, "AI-html-1.0.0/home.html", {"form":form})          
+                return render(request, "AI-html-1.0.0/PortalDocentes.html", {"form":form, "cliente": allusuarios.objects.get(username=username)})          
             else:
                 messages.error(request,"Usuario no válido")
         else:
@@ -64,7 +71,7 @@ def iniciar_sesion_estudiantes(request):
             if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiantes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
-                return render(request, "AI-html-1.0.0/home.html", {"form":form})          
+                return render(request, "AI-html-1.0.0/PortalEstudiantes.html", {"form":form, "cliente": allusuarios.objects.get(username=username)})          
             else:
                 messages.error(request,"Usuario no válido")
         else:
