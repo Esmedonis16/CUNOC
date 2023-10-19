@@ -16,7 +16,7 @@ class allusuarios (models.Model):
     username = models.CharField(max_length=150, null=False, default=user)
     email = models.EmailField(max_length=150, default="direccion@gmail.com")
     cui = models.CharField(max_length=13, null=False, default="0")
-    profile_image = models.ImageField(upload_to='users_pictures', default='users_pictures/default.png')
+    profile_image = models.ImageField(upload_to='Perfiles', default='users_pictures/default.png')
     login_attempts = models.IntegerField(null=False, default=0)
     active_account = models.BooleanField(null=False, default=True)
 

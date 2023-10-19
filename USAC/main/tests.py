@@ -14,7 +14,12 @@ from main.models import allusuarios
 from django.shortcuts import render
 from django.template.loader import render_to_string
 
+
+
+
 def send_email():
+    
+    Destinatario = 'h.isaa.3007@gmail.com'
     try:
         mailServer = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
         print(mailServer.ehlo())
@@ -23,10 +28,11 @@ def send_email():
         mailServer.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
         print('Conectado . . . ')
         
+
         # Construimos el mensaje simple
         mensaje = MIMEMultipart()
         mensaje['From'] = settings.EMAIL_HOST_USER
-        mensaje['To'] = "h.isaa.3007@gmail.com"
+        mensaje['To'] = Destinatario
         mensaje['Subject'] = "Tienes un correo"
         
         # Renderizamos la plantilla
@@ -37,7 +43,7 @@ def send_email():
         
         # Envío del mensaje
         mailServer.sendmail(settings.EMAIL_HOST_USER,
-                            "h.isaa.3007@gmail.com",
+                            Destinatario,
                             mensaje.as_string())
         
         print('Correo enviado correctamente')

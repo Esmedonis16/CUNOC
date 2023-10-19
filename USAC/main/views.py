@@ -18,6 +18,14 @@ from django.views.generic import View
 from main.models import allusuarios, docentes
 from django.template.loader import render_to_string
 
+
+import sys
+sys.path.append('G:/Mi unidad/8vo Semestre/Proyectos/CUNOC/USAC') 
+from Ejemplo.wsgi import *
+from main.tests import send_email
+
+
+
 User = get_user_model()
 
 def home(request):
@@ -139,9 +147,24 @@ class VRegistro(View):
             nuevo_usuario.save()
 
             messages.success(request,"Registro exitoso")
+            
+            # def mi_vista(request):
+            
+            # # Pide al usuario que ingrese el destinatario
+            #     Destinatario = request.user.email
 
+            # # Llama a la función send_email con el destinatario proporcionado
+            #     send_email(Destinatario)
+            
             return redirect('home')
         else:
             for msg in form.error_messages:
                 messages.error(request,form.error_messages[msg])
             return render(request, "AI-html-1.0.0/registro.html", {"form":form})
+        
+        
+        
+    def logout_request(request):
+        logout(request)
+        messages.info(request, "Saliste exitosamente")
+        return redirect("main:homepage")
