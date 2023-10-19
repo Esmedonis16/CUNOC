@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
 
     'jazzmin',
 
@@ -51,8 +52,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'axes',
     'crispy_bootstrap4',
+    
+    'colorfield',
 
 ]
+
+X_FRAME_OPTION='SAMEORIGIN'
 
 JAZZMIN_UI_TWEAKS = {
     # "theme": "cosmo",
@@ -139,7 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-eu'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -181,5 +186,6 @@ EMAIL_PORT=587
 EMAIL_HOST_USER="academiacunoc@gmail.com"
 EMAIL_HOST_PASSWORD="jyjt qwnt ssop tuda"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
