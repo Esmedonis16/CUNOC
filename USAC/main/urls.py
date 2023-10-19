@@ -12,7 +12,7 @@ urlpatterns = [
     
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name="InicioDE"), 
     
-    path('LoginDocentes/', views.iniciar_sesion_docentes, name='IniciarD'),
+    path('LoginDocentes/', views.custom_login, name='IniciarD'),
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='IniciarE'),
     
     path('PortalEstudiantes/', views.PE, name='PE'),

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'axes',
     'crispy_bootstrap4',
     
+
     'colorfield',
 
 ]
@@ -93,6 +94,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'axes.middleware.AxesMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Ejemplo.urls'

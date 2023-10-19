@@ -13,15 +13,12 @@ class CursoInline(admin.TabularInline):
     
 class DocentesAdmin(admin.ModelAdmin):
     inlines = [CursoInline]
-    fields=('username','Nombre', 'Apellido', 'cui', 'login_attempts')
-    #readonly_fields=('login_attempts') #Evitar la modificacion en la edicion de registro
-    list_display = ['username','Apellido', 'Nombre', 'cui','mostrar_cursos'] #Propiedades visibles del campo
-    ordering = ['Nombre']    #Ordena registros por
-    search_fields = ['Nombre', 'username', 'cui'] #Permite buscar por
-    # list_display_links = [''] #brindar link a campo
-    # list_filter=['']  #Añadir buscar por filtro
-    list_per_page=15    #Cantidad de items por pagina
-    # exclude=['']      #Excluir campos en la edicion de registro
+  
+    
+    fields = ('user', 'login_attempts')
+    list_display = ['user', 'mostrar_cursos']
+    ordering = ['user']    
+    search_fields = ['user__username', 'user__first_name', 'user__last_name'] 
     
     def mostrar_cursos(self, obj):
         return ", ".join([cursos.nombre for cursos in obj.cursos_set.all()])
@@ -29,8 +26,8 @@ class DocentesAdmin(admin.ModelAdmin):
 admin.site.register(docentes, DocentesAdmin)
 
 class CursosAdmin(admin.ModelAdmin):
-    fields=('codigo', 'nombre', 'costo', 'horario', 'cupo', 'docente')
-    list_display = ['codigo', 'nombre', 'costo', 'horario', 'cupo', 'docente']
+    fields=('codigo', 'nombre', 'descripcion', 'costo', 'horario', 'cupo', 'docente', 'imagen')
+    list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horario', 'cupo', 'docente','imagen']
     ordering = ['nombre']
     search_fields = ['nombre', 'codigo', 'docente__Nombre']  # Puedes personalizar los campos de búsqueda
     list_per_page = 15  # Cantidad de items por página

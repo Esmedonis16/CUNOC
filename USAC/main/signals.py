@@ -1,11 +1,16 @@
-from django.contrib.auth.models import Group
-from django.db.models.signals import post_save
+# signals.py
+from django.contrib.auth.signals import user_logged_in, user_login_failed
 from django.dispatch import receiver
 from .models import docentes
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-@receiver(post_save, sender=docentes)
-def add_to_group(sender, instance, created, **kwargs):
-    if created:
-        group = Group.objects.get(name='Docentes')
-        instance.user.groups.add(group)
-        instance.save()
+
+@receiver(user_logged_in)
+def on_user_logged_in(sender, request, user, **kwargs):
+    try:
+        docente = docentes.objects.get(user=user)
+        docente.login_attempts = 0  # Reset intentos fallidos
+        docente.save()
+    except docentes.DoesNotExist:
+        pass
