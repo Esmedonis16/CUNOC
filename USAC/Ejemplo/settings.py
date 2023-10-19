@@ -63,7 +63,7 @@ JAZZMIN_UI_TWEAKS = {
 JAZZMIN_SETTINGS = {
     "site_title": "CUNOC-USAC",
     "site_header": "Administración USAC",
-    "site_logo": "/cunoc.jpg",
+    "site_logo": "img/logo-cunoc.png",
     "login_logo": "img/logo-cunoc.png",
     "site_icon": None,
     "user_avatar": "admin/logo-cunoc.png",
@@ -162,5 +162,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK='bootstrap4'
 
 AXES_FAILURE_LIMIT = 10
-AXES_LOCKOUT_CALLABLE = "autenticacion.views.lockout"
+AXES_LOCKOUT_CALLABLE = "main.views.lockout"
 AXES_ONLY_USER_FAILURES	= True

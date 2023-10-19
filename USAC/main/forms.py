@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms.fields import EmailField  
 from django.forms.forms import Form  
 from main.models import allusuarios
+from .models import docentes
   
 from django.contrib.auth import get_user_model
 #from user.models import User
@@ -64,7 +65,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields=['username', 'first_name', 'last_name', 'email', 'password1']
+        fields=['username', 'first_name', 'last_name', 'email', 'password']
     
     cui = forms.IntegerField(label='CUI', help_text='Código Único de Identificación CUI')
     profile_imagen = forms.ImageField(label='Foto de perfil')
@@ -82,3 +83,7 @@ class CustomUserCreationForm(UserCreationForm):
         #if new.exists():
             #raise ValidationError("El CUI ya está vinculado con otra cuenta. Utiliza otro CUI.")
         #return cui
+             
+
+    
+    

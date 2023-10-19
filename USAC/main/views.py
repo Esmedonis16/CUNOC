@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from axes.utils import reset
 from django.contrib import messages
+from django.contrib.auth.models import Group
+
 from django.contrib.auth import get_user_model
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -31,8 +33,8 @@ def iniciar_sesion_docentes(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username=form.cleaned_data.get("username")
-            password=form.cleaned_data.get("password")
-            usuario = authenticate(request=request, username=username, password=password)
+            #password=form.cleaned_data.get("password")
+            usuario = authenticate(request=request, username=username)
             if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
