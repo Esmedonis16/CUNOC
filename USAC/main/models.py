@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.utils.translation import gettext_lazy as _
 
+
 # Create your models here.
 
 
@@ -62,6 +63,22 @@ class cursos(models.Model):
         db_table = 'RegistroCursos'
         verbose_name = 'Curso'
         verbose_name_plural = 'Cursos'
-        ordering = ['id']  
+        ordering = ['id'] 
+        
+class Notas(models.Model):
+    estudiante = models.ForeignKey(allusuarios, on_delete=models.CASCADE)
+    curso = models.ForeignKey(cursos, on_delete=models.CASCADE)
+    nota = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    descripcion = models.CharField(max_length=100, null=False)
+    
+
+    def __str__(self):
+        return f"Nota de {self.estudiante.username} en {self.curso.nombre}"
+
+    class Meta:
+        db_table = 'RegistroNotas'
+        verbose_name = 'Nota'
+        verbose_name_plural = 'Notas'
+        ordering = ['id']           
                  
        

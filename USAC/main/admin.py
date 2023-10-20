@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import docentes, cursos
+from .models import docentes, cursos, Notas
 
 from django.contrib.auth import get_user_model
 
@@ -35,3 +35,8 @@ class CursosAdmin(admin.ModelAdmin):
 
 admin.site.register(cursos, CursosAdmin)
 
+@admin.register(Notas)
+class NotasAdmin(admin.ModelAdmin):
+    list_display = ('estudiante', 'curso', 'nota', 'descripcion')
+    list_filter = ('curso',)
+    search_fields = ('estudiante__username', 'curso__nombre')

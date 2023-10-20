@@ -37,46 +37,25 @@ def catalogo_de_carreras(request):
 
 
 
-def custom_login(request):
-    if request.method == "POST":
+def iniciar_sesion_docentes(request):
+    if request.method=="POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
+            username=form.cleaned_data.get("username")
+            password=form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            if not usuario:
-            # Registra un intento de inicio de sesión fallido aquí
-                try:
-                    user_docente = docentes.objects.get(username=username)
-                    user_docente.login_attempts -= 1
-                    if user_docente.login_attempts <= 0:
-                        user_docente.account_locked = True
-                    user_docente.save()
-                except docentes.DoesNotExist:
-                    pass
-
-            if usuario:
-                try:
-                    user_docente = docentes.objects.get(user=usuario)
-                    if user_docente.account_locked:
-                        messages.error(request, "Tu cuenta ha sido bloqueada debido a múltiples intentos fallidos de inicio de sesión.")
-                        return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form": form})
-
-                    if usuario.is_superuser and user_docente in usuario.groups.all():
-                        login(request, usuario)
-                        # Resto de tu código
-
-                    else:
-                        messages.error(request, "Usuario no válido o no es un docente")
-
-                except docentes.DoesNotExist:
-                    messages.error(request, "Usuario no es un docente válido")
-
+            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Docentes') in usuario.groups.all():
+                login(request, usuario)
+                reset(username=username)
+                return render(request, "AI-html-1.0.0/home.html", {"form":form})         
             else:
-                messages.error(request, "Credenciales no válidas")
+                messages.error(request,"Usuario no válido")
+        else:
+            messages.error(request,"Información no válida")
 
     form = AuthenticationForm()
-    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form": form})
+    return render(request, "AI-html-1.0.0/LoginDocentes.html", {"form":form}) #este es el boton directorio
+
 
 
 #def cerrar_sesion(request):
