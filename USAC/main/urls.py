@@ -1,6 +1,6 @@
 from django.urls import path 
 from . import views
-
+from django.contrib.auth import login, logout, authenticate
 from .views import VRegistro
 from django.conf.urls.static import static
 from django.conf import settings
@@ -12,12 +12,16 @@ urlpatterns = [
     
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name="InicioDE"), 
     
+
     path('LoginDocentes/', views.iniciar_sesion_docentes, name='IniciarD'),
+
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='IniciarE'),
     
     path('PortalEstudiantes/', views.PE, name='PE'),
     
     path('PortalDocentes/', views.PD, name='PD'),
+    
+    #path('logout/', views.logout_request, name='logout')
     
    
 ]
