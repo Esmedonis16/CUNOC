@@ -18,7 +18,7 @@ urlpatterns = [
     
     path('PortalEstudiantes/', views.PE, name='PE'),
     
-    #path('PortalDocentes/', views.PD, name='PD'),
+    path('PortalDocentes/', views.PD, name='PD'),
     
     #path('logout/', views.logout_request, name='logout')
     
