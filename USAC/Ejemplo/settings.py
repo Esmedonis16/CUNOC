@@ -47,12 +47,13 @@ INSTALLED_APPS = [
 
     #MyApps
     'main.apps.MainConfig',
+    'Admin_y_Docentes',
 
     #Third Apps
     'crispy_forms',
     'axes',
     'crispy_bootstrap4',
-    'Registro_Perfiles',
+   
     
 
     'colorfield',
@@ -127,6 +128,7 @@ DATABASES = db.POSTGRESQL
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

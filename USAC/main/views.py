@@ -1,26 +1,14 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.http import HttpResponse
+from django.contrib.auth.forms import AuthenticationForm
 
 from axes.utils import reset
 from django.contrib import messages
-from django.contrib.auth.models import Group
-
-from django.contrib.auth import get_user_model
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django import forms
+from main.models import allusuarios
 from .forms import CustomUserCreationForm  
 from django.views.generic import View
-from main.models import allusuarios, docentes
-from django.template.loader import render_to_string
-
-
-
-
+from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def home(request):
@@ -71,7 +59,7 @@ def iniciar_sesion_estudiantes(request):
             username=form.cleaned_data.get("username")
             password=form.cleaned_data.get("password")
             usuario = authenticate(request=request, username=username, password=password)
-            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiante') in usuario.groups.all():
+            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiantes') in usuario.groups.all():
                 login(request, usuario)
                 reset(username=username)
                 return render(request, "AI-html-1.0.0/PortalEstudiantes.html", {"form":form, "cliente": allusuarios.objects.get(username=username)})          
@@ -100,19 +88,15 @@ class VRegistro(View):
     def post(self, request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         print(form)
-        # nombre=form2.get_first_name()
-        # print(nombre)
+
 
         if form.is_valid():
             usuario = form.save()
-            # form.email_clean()
-            # form.email_clean()
+        
             ncui = form.cleaned_data.get('cui')
-            # nimagen = form.cleaned_data.get('profile_imagen')
+           
             img = form.cleaned_data.get("profile_imagen")
-            # print(cui)
-            # username=request.user.username
-            # password=request.user.password1
+          
             username=form.cleaned_data.get('username')
             password=form.cleaned_data.get('password1')
             usuario = authenticate(request=request, username=username, password=password)
