@@ -21,7 +21,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('portal/', include('main.urls'))
+    #path('portal/', include('main.urls')),
+    path('', include('Isaac.urls'))
 ]
 
 if settings.DEBUG:
