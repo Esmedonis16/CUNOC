@@ -46,12 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #MyApps
-    'main',
+    'main.apps.MainConfig',
 
     #Third Apps
     'crispy_forms',
     'axes',
     'crispy_bootstrap4',
+    'Registro_Perfiles',
     
 
     'colorfield',
