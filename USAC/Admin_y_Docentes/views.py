@@ -1,9 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
-from .models import inges
+from .models import inges, Registros
 from django.views.generic import View
+
+
+
+def boton(request, pk):
+    BotonRegistrarD = get_object_or_404(Registros, pk=pk)
+    # Aquí puedes hacer algo con BotonRegistrarD
+    return redirect('signup')
+
+
+
 
 class RDocentes(View):
 

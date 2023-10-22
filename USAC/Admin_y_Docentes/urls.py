@@ -1,6 +1,5 @@
 from django.urls import path 
 from . import views
-from main import views
 from django.contrib.auth import login, logout, authenticate
 from .views import RDocentes
 from django.conf.urls.static import static
@@ -8,8 +7,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('home/', views.home, name='home'),
     path('registrodocente/', RDocentes.as_view(), name='signup'),
+    path('boton/<int:pk>/', views.boton, name='boton'),
 ]
 
 

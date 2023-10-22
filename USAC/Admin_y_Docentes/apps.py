@@ -5,7 +5,7 @@ from django.apps import AppConfig
 class AdminYDocentesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'Admin_y_Docentes'
-    verbose_name = 'Registros de Docentes'
+    verbose_name = 'Administración de Portales'
     
     def ready(self):
         import Admin_y_Docentes.signals

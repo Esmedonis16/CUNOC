@@ -1,9 +1,20 @@
 from django.contrib import admin
-from .models import inges, cursos, Notas
+from .models import inges, cursos, Notas, Registros
+from django.urls import reverse
+from django.utils.html import format_html
 
-from django.contrib.auth.models import Group
-# Register your models here.
 
+class clickadmin(admin.ModelAdmin):
+    
+    list_display = ('Añadir', 'click_boton')
+    
+    def click_boton(self, obj):
+        return format_html('<a class="button" href="{}">Formulario de Registro</a>', reverse('boton', args=[obj.pk]))
+
+    click_boton.short_description = 'Acción'
+    click_boton.allow_tags = False
+    
+admin.site.register(Registros, clickadmin)    
 
 class CursoInline(admin.TabularInline):
     model = cursos
@@ -26,13 +37,13 @@ class DocenteAdmin(admin.ModelAdmin):
     def user_groups(self, obj):
         return ", ".join([group.name for group in obj.user.groups.all().order_by('name')])
     
-    user_groups.short_description = 'Groups'
-    
+    user_groups.short_description = 'Rol'    
 admin.site.register(inges, DocenteAdmin)
 
+
 class CursosAdmin(admin.ModelAdmin):
-    fields=('codigo', 'nombre', 'descripcion', 'costo', 'horario', 'cupo', 'docentes', 'imagen')
-    list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horario', 'cupo', 'docentes','imagen']
+    fields=('codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes', 'imagen')
+    list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes','imagen']
     ordering = ['nombre']
     search_fields = ['nombre', 'codigo', 'docentes__nombre']  # Corregido el nombre de los campos
     list_per_page = 15  # Cantidad de items por página

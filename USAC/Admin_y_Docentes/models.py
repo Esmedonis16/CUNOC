@@ -8,9 +8,18 @@ from django.contrib.auth.models import User
 #get_user_model
 #User = get_user_model()
 
+class Registros(models.Model):
+    Añadir = models.CharField(max_length=100)
+    
+    class Meta:
+        verbose_name = 'Registro de Docente'
+        verbose_name_plural = 'Registro de Docentes'
+        ordering = ['id']
+
 class inges(models.Model):
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    username = models.CharField(max_length=150, null=False, default='')
+    username = models.CharField(max_length=150, null=False, default='',verbose_name='Nombre de usuario')
     first_name = models.CharField(max_length=150, null=False, verbose_name='Nombre')
     last_name = models.CharField(max_length=150, null=False, verbose_name='Apellido')
     email = models.EmailField(max_length=150)
@@ -22,8 +31,8 @@ class inges(models.Model):
 
     class Meta:
         db_table = 'RegistrosDocentes'
-        verbose_name = 'Registro de Docente'
-        verbose_name_plural = 'Registro de Docentes'
+        verbose_name = 'Docente'
+        verbose_name_plural = 'Docentes'
         ordering = ['id']
 
     def __str__(self):
@@ -43,7 +52,8 @@ class cursos(models.Model):
     nombre = models.CharField(max_length=50, null=False)
     descripcion = models.CharField(max_length=100, null=False)
     costo = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    horario = models.CharField(max_length=150, null=False)
+    horarioinicio = models.CharField(max_length=150, null=False, verbose_name='Inicio')
+    horariofin = models.CharField(max_length=150, null=False, verbose_name='Fin')
     cupo = models.IntegerField(null=False)
     docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  # Corregido el nombre de la relación
     cupo = models.IntegerField(null=False)
