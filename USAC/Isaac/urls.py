@@ -12,6 +12,8 @@ urlpatterns = [
     path('registro/', VRegistro.as_view(), name="registro"),
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='InicioE'),
     path('PortalEstudiantes/', views.PE, name='PE'),
+    path('PortalEstudiantes/', views.PE, name='perfil'),
+    path('PortalEstudiantes/', views.PE, name='closed'),
 ]
 
 if settings.DEBUG:

@@ -11,7 +11,7 @@
         <div class="contenedor-padre">  <!-- Contenedor padre para centrar -->
             <div class="form-containerL">
                 <!-- Aquí tu formulario y el resto del contenido -->        
-                <form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+                <!-- <form method="post" action="" enctype="multipart/form-data" class="crispy-form">
                     {% csrf_token %}
                     {{form|crispy}}
                     {% if messages %}
@@ -22,7 +22,12 @@
                     <div class="col text-center" style="margin-top: 20px;">
                         <button class="btn btn-success regular-button">Registrar</button>
                     </div>
-                </form>        
+                </form>     -->   
+                <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Iniciar sesión</button>
+                </form>
             </div>        
         </div>  <!-- Fin del contenedor padre -->
     </div>
