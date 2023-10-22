@@ -1,23 +1,22 @@
-from django.shortcuts import render
+
 from django.shortcuts import render, redirect
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import Group
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
+
 from django.http import HttpResponse
 
 from axes.utils import reset
-from django.contrib import messages
-from django.contrib.auth.models import Group
-
-from django.contrib.auth import get_user_model
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from main.forms import CustomUserCreationForm
 from django.views.generic import View
-from main.models import allusuarios, docentes
 from django.template.loader import render_to_string
 
+from main.models import allusuarios, docentes
+from main.forms import CustomUserCreationForm
 
 User = get_user_model()
 
@@ -42,10 +41,16 @@ def iniciar_sesion_estudiantes(request):
             password = form.cleaned_data.get("password")
             usuario = authenticate(
                 request=request, username=username, password=password)
-            if usuario is not None and not usuario.is_superuser and Group.objects.get(name='Estudiantes') in usuario.groups.all():
-                login(request, usuario)
-                reset(username=username)
-                return render(request, "PortalEstudiantes.html", {"form": form, "cliente": allusuarios.objects.get(username=username)})
+            grupo_estudiantes = Group.objects.get(name='Estudiantes')
+
+            if usuario is not None:
+                if not usuario.is_superuser and grupo_estudiantes in usuario.groups.all():
+                    login(request, usuario)
+                    # Asegúrate de que esta función exista y sea necesaria
+                    # reset(username=username)
+                    return render(request, "PortalEstudiantes.html", {"form": form, "cliente": allusuarios.objects.get(username=username)})
+                else:
+                    messages.error(request, "Credenciales inválidas")
             else:
                 messages.error(request, "Usuario no válido")
         else:
