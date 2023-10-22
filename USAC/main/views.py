@@ -1,26 +1,14 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.http import HttpResponse
+from django.contrib.auth.forms import AuthenticationForm
 
 from axes.utils import reset
 from django.contrib import messages
-from django.contrib.auth.models import Group
-
-from django.contrib.auth import get_user_model
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django import forms
+from main.models import allusuarios
 from .forms import CustomUserCreationForm  
 from django.views.generic import View
-from main.models import allusuarios, docentes
-from django.template.loader import render_to_string
-
-
-
-
+from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def home(request):
@@ -94,27 +82,21 @@ def cerrar_sesion(request):
 class VRegistro(View):
 
     def get(self, request):
-        # form = UserCreationForm()
         form = CustomUserCreationForm()
         return render(request, "AI-html-1.0.0/registro.html", {"form":form})
 
     def post(self, request):
-        # form = UserCreationForm(request.POST)
         form = CustomUserCreationForm(request.POST, request.FILES)
         print(form)
-        # nombre=form2.get_first_name()
-        # print(nombre)
+
 
         if form.is_valid():
             usuario = form.save()
-            # form.email_clean()
-            # form.email_clean()
+        
             ncui = form.cleaned_data.get('cui')
-            # nimagen = form.cleaned_data.get('profile_imagen')
+           
             img = form.cleaned_data.get("profile_imagen")
-            # print(cui)
-            # username=request.user.username
-            # password=request.user.password1
+          
             username=form.cleaned_data.get('username')
             password=form.cleaned_data.get('password1')
             usuario = authenticate(request=request, username=username, password=password)

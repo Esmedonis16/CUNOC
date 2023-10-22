@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,25 +43,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # MyApps
-    'main',
+    #MyApps
+    'main.apps.MainConfig',
+    'Admin_y_Docentes',
     'Isaac',
     'loginout',
-    # Third Apps
-    'jazzmin',
+
+    #Third Apps
     'crispy_forms',
     'axes',
     'crispy_bootstrap4',
-    'admin_interface',
-    'colorfield',
+    
+
 ]
 
 X_FRAME_OPTION = 'SAMEORIGIN'
 
 JAZZMIN_UI_TWEAKS = {
-    # "theme": "cosmo",
-    # "theme": "flatly",
-    "theme": "litera",
+     "theme": "cosmo",
+    #"theme": "flatly",
+    #"theme": "darkly",
 }
 
 JAZZMIN_SETTINGS = {
@@ -68,7 +71,10 @@ JAZZMIN_SETTINGS = {
     "site_logo": "img/logo-cunoc.png",
     "login_logo": "img/logo-cunoc.png",
     "site_icon": None,
-    "user_avatar": "admin/logo-cunoc.png",
+   "user_avatar": "img/logo-cunoc.png",
+    "custom_css": "static/css/custom.css",
+    "welcome_sign": "Bienvenidos al Panel de Administración",
+
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -120,6 +126,7 @@ DATABASES = db.POSTGRESQL
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
