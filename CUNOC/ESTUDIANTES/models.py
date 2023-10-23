@@ -18,6 +18,15 @@ class allusuarios(models.Model):
     active_account = models.BooleanField(null=False, default=True)
     account_locked = models.BooleanField(default=False)
     
+    class Meta:
+        db_table = 'RegistrosEstudiantes'
+        verbose_name = 'Estudiante'
+        verbose_name_plural = 'Estudiantes'
+        ordering = ['cui']
+        
+    def __str__(self):
+        return self.username
+
 
 @receiver(post_save, sender=allusuarios)
 def add_user_to_docentes_group(sender, instance, created, **kwargs):

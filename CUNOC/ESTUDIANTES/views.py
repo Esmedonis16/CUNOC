@@ -9,11 +9,12 @@ from .models import allusuarios
 from django.contrib import messages
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'Home.html')
 
 @login_required
 def Pensum(request):
-    return render(request, 'pensum.html')
+    return render(request, 'Pensum.html')
+
 
 def PE(request):
     cliente_username = request.session.get('cliente_username', None)
@@ -23,9 +24,6 @@ def PE(request):
     else:
         return redirect('InicioE')
 
-@login_required
-def products(request):
-    return render(request, 'productos.html')
 
 def salir(request):
     logout(request)
@@ -34,6 +32,7 @@ def salir(request):
 def exit(request):
     logout(request)
     return redirect('home')
+
 
 def iniciar_sesion_estudiantes(request):
     if request.method == "POST":
@@ -61,7 +60,7 @@ def iniciar_sesion_estudiantes(request):
 class VRegistro(View):
     def get(self, request):
         form = CustomUserCreationForm()
-        return render(request, "registro.html", {"form": form})
+        return render(request, "Registro.html", {"form": form})
 
     def post(self, request):
         form = CustomUserCreationForm(request.POST, request.FILES)
@@ -81,4 +80,4 @@ class VRegistro(View):
         else:
             for msg in form.error_messages:
                 messages.error(request, form.error_messages[msg])
-        return render(request, "registro.html", {"form": form})
+        return render(request, "Registro.html", {"form": form})
