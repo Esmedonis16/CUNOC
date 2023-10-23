@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
-from main.models import allusuarios
+from Isaac.models import allusuarios
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 #get_user_model
@@ -37,13 +37,18 @@ class inges(models.Model):
 
     def __str__(self):
         return self.first_name
-
+    
 @receiver(post_save, sender=inges)
 def add_user_to_docentes_group(sender, instance, created, **kwargs):
     if created:
-        docentes_group, _ = Group.objects.get_or_create(name='Docentes')
-        instance.user.groups.add(docentes_group)
-    
+        try:
+            docentes_group, created = Group.objects.get_or_create(name='Docentes')
+            
+            if instance.user:
+                instance.user.groups.add(docentes_group)
+        except Exception as e:
+            # Aquí puedes manejar el error como quieras, por ejemplo, imprimirlo
+            print(f"Error al agregar al usuario al grupo Docentes: {e}")
 
         
 class cursos(models.Model):

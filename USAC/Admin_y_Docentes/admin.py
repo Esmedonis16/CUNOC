@@ -3,9 +3,8 @@ from .models import inges, cursos, Notas, Registros
 from django.urls import reverse
 from django.utils.html import format_html
 
-
+@admin.register(Registros)
 class clickadmin(admin.ModelAdmin):
-    
     list_display = ('Añadir', 'click_boton')
     
     def click_boton(self, obj):
@@ -14,12 +13,12 @@ class clickadmin(admin.ModelAdmin):
     click_boton.short_description = 'Acción'
     click_boton.allow_tags = False
     
-admin.site.register(Registros, clickadmin)    
 
 class CursoInline(admin.TabularInline):
     model = cursos
     extra = 1
     
+@admin.register(inges)    
 class DocenteAdmin(admin.ModelAdmin):   
     inlines = [CursoInline]
     
@@ -38,9 +37,8 @@ class DocenteAdmin(admin.ModelAdmin):
         return ", ".join([group.name for group in obj.user.groups.all().order_by('name')])
     
     user_groups.short_description = 'Rol'    
-admin.site.register(inges, DocenteAdmin)
 
-
+@admin.register(cursos)
 class CursosAdmin(admin.ModelAdmin):
     fields=('codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes', 'imagen')
     list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes','imagen']
@@ -48,8 +46,6 @@ class CursosAdmin(admin.ModelAdmin):
     search_fields = ['nombre', 'codigo', 'docentes__nombre']  # Corregido el nombre de los campos
     list_per_page = 15  # Cantidad de items por página
     # Otros atributos que puedes agregar para personalizar la vista del panel de administración
-
-admin.site.register(cursos, CursosAdmin)
 
 @admin.register(Notas)
 class NotasAdmin(admin.ModelAdmin):
