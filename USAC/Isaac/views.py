@@ -2,24 +2,13 @@
 from django.shortcuts import render, redirect
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-
-from django.http import HttpResponse
-
-from axes.utils import reset
-from django import forms
 from django.views.generic import View
-from django.template.loader import render_to_string
-
-from main.models import allusuarios, docentes
-from main.forms import CustomUserCreationForm
-
-User = get_user_model()
-
+from .models import allusuarios
+from .forms import CustomUserCreationForm
 
 def home(request):
     return render(request, 'home.html')

@@ -15,7 +15,8 @@ urlpatterns = [
     path('PortalEstudiantes/', views.PE, name='perfil'),
     path('PortalEstudiantes/', views.PE, name='closed'),
 ]
-
+    #path('LoginDocentes/', views.iniciar_sesion_docentes, name='IniciarD'),
+    
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #MyApps
-    'main.apps.MainConfig',
     'Admin_y_Docentes',
-    'Isaac',
+    #'Isaac.app.IsaacConfig', 
     'loginout',
+    'Isaac',
 
     #Third Apps
     'crispy_forms',
