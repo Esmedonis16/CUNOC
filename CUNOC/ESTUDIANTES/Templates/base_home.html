@@ -55,8 +55,16 @@ https://templatemo.com/tm-569-edu-meeting
                       <li class="has-sub">
                           <a href="javascript:void(0)">Estudiantes</a>
                           <ul class="sub-menu">
-                              <li><a href="{% url 'InicioE' %}">Inicio de Sesion</a></li>
-                              <li><a href="{% url 'registro' %}">Registrate</a></li>
+                              {% if request.user.is_authenticated %}
+                                <li><a href="{% url 'PE' %}">Perfil</a></li>
+                              {%else%}
+                                <li><a href="{% url 'registro' %}">Registrate</a></li>
+                              {%endif%}
+                              {% if request.user.is_authenticated %}
+                                <li><a href="{% url 'salir' %}">Cerrar Sesion</a></li>
+                              {%else%}
+                                <li><a href="{% url 'InicioE' %}">Inicio de Sesion</a></li>                             
+                              {%endif%}
                           </ul>
                       </li>
                       <!-- <li class="scroll-to-section"><a href="#courses">Courses</a></li> -->
