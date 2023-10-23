@@ -34,7 +34,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
+    
+    'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,20 +59,74 @@ INSTALLED_APPS = [
 X_FRAME_OPTION = 'SAMEORIGIN'
 
 JAZZMIN_UI_TWEAKS = {
-    "theme": "cosmo",
-    #"theme": "flatly",
-    #"theme": "darkly",
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-info",
+    "accent": "accent-navy",
+    "navbar": "navbar-cyan navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": True,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-info",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "materia",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": False
+
 }
 
+
+
 JAZZMIN_SETTINGS = {
+    
+    "show_ui_builder": True,
     "site_title": "CUNOC-USAC",
     "site_header": "Administración USAC",
-    "site_logo": "img/logo-cunoc.png",
-    "login_logo": "img/logo-cunoc.png",
+    "site_brand": "Admin CUNOC",
+    "site_logo": "img/logocunoc.jpg",
+    "login_logo": "img/CUNOC.png",
+    "site_logo_classes": "img-circle",
     "site_icon": None,
-    "user_avatar": "img/logo-cunoc.png",
+    "user_avatar": "img/CUNOC.png",
     "custom_css": "static/css/custom.css",
     "welcome_sign": "Bienvenidos al Panel de Administración",
+    
+    "icons": {
+        "auth": "fas fa-users",
+        "Admin_y_Docentes.cursos": "fas fa-solid fa-laptop",
+        "Admin_y_Docentes.inges": "fas fa-users",
+        "Admin_y_Docentes.notas": "fas fa-solid fa-file",
+        "Admin_y_Docentes.registros": "fas fa-solid fa-id-card",
+        "": "",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    
+     # Use modals instead of popups
+    "related_modal_active": False,
+    
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    # Add a language dropdown into the admin
+    
+    
 
 }
 
@@ -161,6 +216,16 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'users_pictures'),
 ]
 
+
+# Emails
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackEnd"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS=True #seguridad de transporte
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "academiacunoc@gmail.com"
+EMAIL_HOST_PASSWORD = "AcademiaCunoc2023"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -174,14 +239,6 @@ AXES_ONLY_USER_FAILURES = True
 
 AXES_LOCKOUT_CALLABLE = "autenticacion.views.lockout"
 AXES_ONLY_USER_FAILURES = True
-
-# Emails
-# EMAIL_BACKEND="django.core.mail.backends.smtp.emailBackEnd"
-EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_USE_TLS=True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "academiacunoc@gmail.com"
-EMAIL_HOST_PASSWORD = "jyjt qwnt ssop tuda"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
