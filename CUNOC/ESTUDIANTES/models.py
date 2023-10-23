@@ -17,7 +17,7 @@ class allusuarios(models.Model):
     login_attempts = models.IntegerField(default=0)
     active_account = models.BooleanField(null=False, default=True)
     account_locked = models.BooleanField(default=False)
-    
+
 
 @receiver(post_save, sender=allusuarios)
 def add_user_to_docentes_group(sender, instance, created, **kwargs):

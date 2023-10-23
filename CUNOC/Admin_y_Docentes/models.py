@@ -22,7 +22,7 @@ class inges(models.Model):
     username = models.CharField(max_length=150, null=False, default='',verbose_name='Nombre de usuario')
     first_name = models.CharField(max_length=150, null=False, verbose_name='Nombre')
     last_name = models.CharField(max_length=150, null=False, verbose_name='Apellido')
-    email = models.EmailField(max_length=150)
+    email = models.EmailField(max_length=150,primary_key=True)
     cui = models.CharField(max_length=13, null=False, verbose_name='DPI')
     imagen = models.ImageField(upload_to='PerfilesDocentes', default='users_pictures/default.png', verbose_name='Foto de Perfil')
     login_attempts = models.IntegerField(default=0)
@@ -33,7 +33,7 @@ class inges(models.Model):
         db_table = 'RegistrosDocentes'
         verbose_name = 'Docente'
         verbose_name_plural = 'Docentes'
-        ordering = ['id']
+        ordering = ['cui']
 
     def __str__(self):
         return self.first_name
