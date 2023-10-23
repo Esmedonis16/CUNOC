@@ -131,6 +131,15 @@ input[type="file"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.form-containerRD {
+    background-color: #0b2241a3;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .crispy-form {
     max-width: 400px;
     /* Puedes ajustar este valor según lo que necesites */

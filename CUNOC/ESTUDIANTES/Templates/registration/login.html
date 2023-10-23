@@ -1,17 +1,38 @@
-{% extends "base.html" %} {% block content %}
-<h3>Login</h3>
+{% extends "base_home.html"%}
+{% load crispy_forms_tags %}
+{% load static %}
 
-<form action="" method="post">
-  {% csrf_token %}
-
-  <input type="text" name="username" placeholder="Nombre de Usuario">
-  <br>
-
-  <input type="password" name="password" placeholder="Contraseña">
-
-  <br>
-
-  <button type="submit">Iniciar Sesión</button>
-</form>
+{% block content %}
+<section class="section main-banner" id="top" data-section="section1">
+    <video autoplay muted loop id="bg-video">
+        <source src="{% static 'images/course-video.mp4' %}" type="video/mp4" />
+    </video>
+    <div class="video-overlay header-text">
+        <div class="contenedor-padre">  <!-- Contenedor padre para centrar -->
+            <div class="form-containerL">
+                <!-- Aquí tu formulario y el resto del contenido -->        
+                <!-- <form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    {% if messages %}
+                        {%for mensaje in messages%}
+                            <div class="alert alert-danger text-center">{{mensaje}}</div>
+                        {% endfor %}
+                    {% endif %}       
+                    <div class="col text-center" style="margin-top: 20px;">
+                        <button class="btn btn-success regular-button">Registrar</button>
+                    </div>
+                </form>     -->   
+                <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="col text-center" style="margin-top: 20px;">
+						<button class="btn btn-success regular-button">Registrar</button>
+				</div>
+                </form>
+            </div>        
+        </div>  <!-- Fin del contenedor padre -->
+    </div>
+</section>
 
 {% endblock %}

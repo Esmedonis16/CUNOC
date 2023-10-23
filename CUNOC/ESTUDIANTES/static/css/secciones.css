@@ -7,7 +7,6 @@
   background-size: 100% 100%;
   padding-top: 140px;
   padding-bottom: 0px;
-
 }
 
 .fondo-login {
@@ -19,5 +18,15 @@
   background-size: 100% 100%;
   padding-top: 140px;
   padding-bottom: 0px;
+}
 
+.fondo-docentes {
+  background-image: url(../images/fondodocentes.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  /* background-size: cover; */
+  background-size: 100% 100%;
+  padding-top: 140px;
+  padding-bottom: 0px;
 }
