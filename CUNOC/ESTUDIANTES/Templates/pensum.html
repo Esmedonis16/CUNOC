@@ -30,25 +30,40 @@
                 </ul>
               </div>
             </div>
+
             <div class="col-lg-12">
+              {% for cursosall in cursoss %}
               <div class="row grid">
+
                 <div class="col-lg-4 templatemo-item-col all soon">
                   <div class="meeting-item">
                     <div class="thumb">
                       <div class="price">
                         <span>$14.00</span>
                       </div>
-                      <a href="meeting-details.html"><img src="{% static 'images/meeting-01.jpg' %}" alt=""></a>
-                    </div>
+                       <a href="meeting-details.html"><img src="{% static 'images/meeting-01.jpg' %}" alt=""></a>
+                      </div>
                     <div class="down-content">
                       <div class="date">
                         <h6>Nov <span>12</span></h6>
                       </div>
-                      <a href="meeting-details.html"><h4>New Lecturers Meeting</h4></a>
-                      <p>Morbi in libero blandit lectus<br>cursus ullamcorper.</p>
+                      <a href="meeting-details.html"><h4> {{ cursosall.nombre }}  </h4></a>
+                      <p>Morbi in libero blandit lectus<br>  {{ cursosall.docentes.first_name }} y {{ cursosall.docentes.last_name }} </p>
+                      <p class="card-text"><strong>Ing: </strong>  {{ cursosall.class_quantity }} </p>
+                      <p class="card-text"><strong>Cupos: </strong>  {{ cursosall.enrolled_count }} </p>
+                      <p class="card-text"><strong>Inscritos: </strong>hello</p>
+                      {% if group_name == 'Estudiantes' %}
+                          <a href="">Asignar</a>
+                          <a href="">Desasignar</a>
+                      {% else %}
+                          <lib><a href= "{% url 'home' %}">Ir al Perfil</a></lib>
+                      {% endif %}
+                      
                     </div>
                   </div>
                 </div>
+                {% endfor %}  
+
                 <div class="col-lg-4 templatemo-item-col all imp">
                   <div class="meeting-item">
                     <div class="thumb">

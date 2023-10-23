@@ -99,14 +99,14 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": True,
     "site_title": "CUNOC-USAC",
     "site_header": "Administración USAC",
-    "site_brand": "Admin CUNOC",
+    "site_brand": "CUNOC",
     "site_logo": "img/logocunoc.jpg",
     "login_logo": "img/CUNOC.png",
     "site_logo_classes": "img-circle",
     "site_icon": None,
-    "user_avatar": "img/CUNOC.png",
+    "user_avatar": "img/logocunoc.jpg",
     "custom_css": "static/css/custom.css",
-    "welcome_sign": "Bienvenidos al Panel de Administración",
+    "welcome_sign": "Bienvenidos al Panel de Administración y Docentes",
     
     "icons": {
         "auth": "fas fa-users",
