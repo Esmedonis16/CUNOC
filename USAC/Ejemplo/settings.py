@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
+    'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,6 +68,7 @@ JAZZMIN_UI_TWEAKS = {
 JAZZMIN_SETTINGS = {
     "site_title": "CUNOC-USAC",
     "site_header": "Administración USAC",
+    "site_brand": "Library",
     "site_logo": "img/logo-cunoc.png",
     "login_logo": "img/logo-cunoc.png",
     "site_icon": None,
