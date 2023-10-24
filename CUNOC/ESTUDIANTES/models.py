@@ -17,6 +17,7 @@ class allusuarios(models.Model):
     login_attempts = models.IntegerField(default=0)
     active_account = models.BooleanField(null=False, default=True)
     account_locked = models.BooleanField(default=False)
+    #student = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'RegistrosEstudiantes'

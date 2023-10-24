@@ -60,6 +60,7 @@ class cursos(models.Model):
     horarioinicio = models.CharField(max_length=150, null=False, verbose_name='Inicio')
     horariofin = models.CharField(max_length=150, null=False, verbose_name='Fin')
     cupo = models.IntegerField(null=False)
+    estudiantes_inscritos = models.ManyToManyField(allusuarios, related_name='cursos_inscritos', blank=True)
     docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  
     imagen = models.ImageField(upload_to='PortadasCursos', default='users_pictures/default.png')
 
