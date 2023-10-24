@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import allusuarios
+#from Admin_y_Docentes.models import cursos
 from django.contrib import messages
+
+#from django.shortcuts import get_object_or_404
+
 
 def home(request):
     return render(request, 'Home.html')
@@ -81,3 +85,5 @@ class VRegistro(View):
             for msg in form.error_messages:
                 messages.error(request, form.error_messages[msg])
         return render(request, "Registro.html", {"form": form})
+    
+

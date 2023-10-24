@@ -41,11 +41,15 @@ class DocenteAdmin(admin.ModelAdmin):
 @admin.register(cursos)
 class CursosAdmin(admin.ModelAdmin):
     fields=('codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes', 'imagen')
-    list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'docentes','imagen']
+    list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin', 'cupo', 'mostrar_estudiantes', 'docentes','imagen']
     ordering = ['nombre']
     search_fields = ['nombre', 'codigo', 'docentes__nombre']  # Corregido el nombre de los campos
     list_per_page = 15  # Cantidad de items por página
     # Otros atributos que puedes agregar para personalizar la vista del panel de administración
+
+    def mostrar_estudiantes(self, obj):
+        return ", ".join([estudiante.username for estudiante in obj.estudiantes_inscritos.all()])
+    mostrar_estudiantes.short_description = 'Estudiantes Inscritos'
 
 @admin.register(Notas)
 class NotasAdmin(admin.ModelAdmin):

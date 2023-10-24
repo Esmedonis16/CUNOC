@@ -22,8 +22,8 @@ class inges(models.Model):
     username = models.CharField(max_length=150, null=False, default='',verbose_name='Nombre de usuario')
     first_name = models.CharField(max_length=150, null=False, verbose_name='Nombre')
     last_name = models.CharField(max_length=150, null=False, verbose_name='Apellido')
-    email = models.EmailField(max_length=150,primary_key=True)
-    cui = models.CharField(max_length=13, null=False, verbose_name='DPI')
+    email = models.EmailField(max_length=150)
+    cui = models.CharField(max_length=13, primary_key=True, verbose_name='DPI')
     imagen = models.ImageField(upload_to='PerfilesDocentes', default='users_pictures/default.png', verbose_name='Foto de Perfil')
     login_attempts = models.IntegerField(default=0)
     active_account = models.BooleanField(null=False, default=True)
@@ -60,8 +60,8 @@ class cursos(models.Model):
     horarioinicio = models.CharField(max_length=150, null=False, verbose_name='Inicio')
     horariofin = models.CharField(max_length=150, null=False, verbose_name='Fin')
     cupo = models.IntegerField(null=False)
-    docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  # Corregido el nombre de la relación
-    cupo = models.IntegerField(null=False)
+    estudiantes_inscritos = models.ManyToManyField(allusuarios, related_name='cursos_inscritos', blank=True)
+    docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  
     imagen = models.ImageField(upload_to='PortadasCursos', default='users_pictures/default.png')
 
     def __str__(self):
