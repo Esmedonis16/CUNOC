@@ -6,8 +6,11 @@ from django.views.generic import View, TemplateView
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import allusuarios
-from Admin_y_Docentes.models import cursos
+#from Admin_y_Docentes.models import cursos
 from django.contrib import messages
+
+#from django.shortcuts import get_object_or_404
+
 
 def home(request):
     return render(request, 'Home.html')
@@ -83,26 +86,4 @@ class VRegistro(View):
                 messages.error(request, form.error_messages[msg])
         return render(request, "Registro.html", {"form": form})
     
-    
-    
-#MOSTRAR TODOS LOS CURSOS
-class allcursos(TemplateView):
-    template_name = "pensum.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        cursoss = cursos.objects.all()
-        student = self.request.user if self.request.user.is_authenticated else None
-        
-        for item in cursoss:
-            if student: 
-                registroC = allusuarios.objects.filter(cursosall = item, student=student).first()
-                item.is_enrolled = registroC is not None 
-            else :
-                item.is_enrolled = False 
-            enrolled_count = allusuarios.objects.filter(cursosall = item).count()
-            item.enrolled_count = enrolled_count
-                
-        context["cursoss"] = cursoss 
-        return context
-    
+
