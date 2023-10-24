@@ -1,0 +1,1 @@
+pip install git+httpsgithub.comdjango-crispy-formscrispy-bootstrap4.git
