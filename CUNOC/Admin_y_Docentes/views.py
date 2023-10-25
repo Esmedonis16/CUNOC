@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
-from .models import inges, Registros
+from .models import inges, Registros, EstudianteCurso
 from django.views.generic import View
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
@@ -67,4 +67,12 @@ class RDocentes(View):
             for msg in form.error_messages:
                 messages.error(request,form.error_messages[msg])
             return render(request, "signup.html", {"form":form})
+        
+
+
+def cursos_del_estudiante(request):
+    # Filtra los cursos basados en el usuario actual
+    cursos_inscritos = EstudianteCurso.objects.filter(estudiante=request.user, asignado=True)
+    return render(request, 'CursosAsig.html', {'cursos_inscritos': cursos_inscritos})
+
 

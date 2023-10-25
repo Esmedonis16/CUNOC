@@ -4,8 +4,9 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import Group
 from django.dispatch import receiver
 # Create your models here.
-
 User = get_user_model()
+
+
 class allusuarios(models.Model):
     user =models.ForeignKey(User, on_delete=models.CASCADE, related_name='universitario')
     first_name = models.CharField(max_length=150, null=False, verbose_name='Nombre')
@@ -17,7 +18,6 @@ class allusuarios(models.Model):
     login_attempts = models.IntegerField(default=0)
     active_account = models.BooleanField(null=False, default=True)
     account_locked = models.BooleanField(default=False)
-    #student = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'RegistrosEstudiantes'
