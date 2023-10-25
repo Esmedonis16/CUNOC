@@ -1,0 +1,21 @@
+{% extends "BaseHome.html"%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+	<section class="fondo-registro">
+		
+		<div class="form-container">
+			<hr>
+				<form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+					{% csrf_token %}
+					{{form|crispy}}
+					{{form2|crispy}}
+					<div class="col text-center" style="margin-top: 20px;">
+						<button class="btn btn-success regular-button">Registrar</button>
+					</div>
+				</form>
+			<hr>
+		</div>
+	</section>
+{%endblock%}

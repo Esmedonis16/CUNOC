@@ -1,0 +1,147 @@
+/* Letra de los campos */
+.crispy-form input[type="text"],
+.crispy-form input[type="password"],
+.crispy-form input[type="email"],
+/* Agregar este tipo de campo */
+.crispy-form input[type="number"],
+/* Agregar este tipo de campo */
+/*.crispy-form input[type="file"],    /* Agregar este tipo de campo */
+.crispy-form select,
+.crispy-form textarea {
+    background-color: #e3e3e3;
+    /* Color de fondo oscuro */
+    color: #000000;
+    /* Color negro para el texto */
+    font-size: 16px;
+    /* Tamaño del texto */
+}
+
+
+/* Ancho de las Barras */
+.crispy-form input[type="text"],
+.crispy-form input[type="password"],
+.crispy-form input[type="email"],
+.crispy-form input[type="number"],
+.crispy-form select,
+.crispy-form textarea {
+    width: 350x;
+    /* Cambia esto al ancho que prefieras */
+}
+
+
+/* Cuadros de Campos */
+.crispy-form input[type="text"],
+.crispy-form input[type="password"],
+.crispy-form input[type="email"],
+.crispy-form input[type="number"],
+.crispy-form select,
+.crispy-form textarea {
+    background-color: hsla(0, 0%, 70%, 0.51);
+    /* Color gris con 50% de transparencia */
+    border: 1px solid #00000080;
+    /* Borde sutil alrededor del input */
+    padding: 5px 10px;
+    /* Espacio interno para mejor presentación */
+}
+
+
+
+
+
+
+
+.crispy-form label {
+    color: #ffffff;
+    /* Color blanco para las etiquetas/labels */
+    font-size: 16px;
+    /* Tamaño del texto */
+}
+
+.crispy-form .errorlist {
+    color: rgb(255, 0, 0) !important;
+    font-size: 16px !important;
+}
+
+
+
+form li {
+    color: #ffffff9e !important;
+    font-size: 12px !important;
+}
+
+#hint_id_cui {
+    color: #ffffff9e !important;
+    font-size: 12px;
+}
+
+#hint_id_username {
+    color: #ffffff9e !important;
+    font-size: 12px;
+}
+
+#hint_id_password2 {
+    color: #ffffff9e !important;
+    font-size: 12px;
+}
+
+#id_profile_imagene {
+    color: #ffffff9e !important;
+    font-size: 12px;
+}
+
+
+/*
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="file"] {
+    background-color: yellow;  /* Eliminar esta regla */
+/*color: black;  /* Color del texto */
+
+
+
+/* Estilo para el contenedor padre */
+.contenedor-padre {
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100vh;
+    /* Ajusta la altura al 100% de la ventana */
+}
+
+/* Estilo para el contenedor del formulario */
+.form-container {
+    background-color: hsla(0, 0%, 0%, 0.604);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-containerL {
+    background-color: hsla(0, 0%, 50%, 0.604);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-containerRD {
+    background-color: #0b2241a3;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.crispy-form {
+    max-width: 400px;
+    /* Puedes ajustar este valor según lo que necesites */
+    margin: auto;
+}
