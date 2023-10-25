@@ -1,0 +1,5 @@
+{% for inscripcion in cursos_inscritos %}
+    <p>Curso: {{ inscripcion.curso.nombre }}</p>
+{% endfor %}
+
+<a href="{% url 'cursos_del_estudiante' %}">Ver mis cursos</a>
