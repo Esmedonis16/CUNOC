@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from ESTUDIANTES.models import allusuarios
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+
+
 #get_user_model
 #User = get_user_model()
 
@@ -36,7 +37,7 @@ class inges(models.Model):
         ordering = ['cui']
 
     def __str__(self):
-        return self.first_name
+        return self.username
     
 @receiver(post_save, sender=inges)
 def add_user_to_docentes_group(sender, instance, created, **kwargs):
@@ -60,7 +61,6 @@ class cursos(models.Model):
     horarioinicio = models.CharField(max_length=150, null=False, verbose_name='Inicio')
     horariofin = models.CharField(max_length=150, null=False, verbose_name='Fin')
     cupo = models.IntegerField(null=False)
-    estudiantes_inscritos = models.ManyToManyField(allusuarios, related_name='cursos_inscritos', blank=True)
     docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  
     imagen = models.ImageField(upload_to='PortadasCursos', default='users_pictures/default.png')
 
@@ -87,7 +87,16 @@ class Notas(models.Model):
         db_table = 'RegistroNotas'
         verbose_name = 'Nota'
         verbose_name_plural = 'Notas'
-        ordering = ['id']    
+        ordering = ['id']  
+
+class EstudianteCurso(models.Model):
+    estudiante = models.ForeignKey(allusuarios, on_delete=models.CASCADE, verbose_name='Estudiante')
+    curso = models.ForeignKey(cursos, on_delete=models.CASCADE, verbose_name='Curso')
+    asignado = models.BooleanField(default=False, verbose_name='Asignado y Pagado')
 
 
-        
+    class Meta:
+        db_table = 'Asigaciones_y_Desasignaciones'
+        verbose_name = 'Asignaciones y Desasigaciones'
+        verbose_name_plural = 'Asignaciones y Desasigaciones'
+        ordering = ['id']
