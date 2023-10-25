@@ -223,7 +223,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS=True #seguridad de transporte
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "academiacunoc@gmail.com"
-EMAIL_HOST_PASSWORD = "AcademiaCunoc2023"
+EMAIL_HOST_PASSWORD = "jyjt qwnt ssop tuda"
 
 
 # Default primary key field type
