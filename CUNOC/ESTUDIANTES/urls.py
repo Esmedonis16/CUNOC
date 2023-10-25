@@ -10,5 +10,7 @@ urlpatterns = [
     path('registro/', VRegistro.as_view(), name="registro"),
     path('PortalEstudiantes/', views.PE, name='PE'),
     path('LoginEstudiantes/', views.iniciar_sesion_estudiantes, name='InicioE'),
+    path('', views.register, name="register"),
+    path('success', views.success, name="success"),
     
 ]
