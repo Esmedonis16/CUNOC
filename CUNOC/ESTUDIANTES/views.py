@@ -10,12 +10,14 @@ from .models import allusuarios
 from Admin_y_Docentes.models import cursos, EstudianteCurso
 #from Admin_y_Docentes.models import cursos
 from django.contrib import messages
+from django.utils.html import strip_tags
 
 #from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User #,auth, 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.core.mail import send_mail
 
 
 from django.shortcuts import get_object_or_404, redirect
@@ -63,10 +65,33 @@ def pensum(request):
 def cursos_asignados(request):
     usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
     asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
-    
+        
+#     enviar_mail(
+#         asignaciones = asignaciones,
+#         asignacion_aprobada = asignaciones,
+#         nombreusuario = request.user.username,
+#         emailusuario = request.user.email
+#     )
+
     return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
 
+# def enviar_mail(asignaciones, asignacion_aprobada, cliente, emailusuario, **kwargs):
 
+#     asunto="Asignaciones Realizadas"
+#     mensaje = render_to_string("emails/asignacion.html",{
+
+#         "asignaciones": asignaciones,
+#         "lineas_pedido": asignacion_aprobada,
+#         "cliente": cliente
+
+#     })
+
+
+#     mensaje_texto=strip_tags(mensaje)
+#     from_email="academiacunoc@gmail.com"         ########Correo desde el que se envia   
+#     to=emailusuario               ########Correo desde al que se envia
+
+#     send_mail(asunto, mensaje_texto, from_email, [to], html_message=mensaje)
 
 
 
