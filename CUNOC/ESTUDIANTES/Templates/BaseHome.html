@@ -47,25 +47,36 @@ https://templatemo.com/tm-569-edu-meeting
                       CUNOC
                   </a>
                   <!-- ***** Logo End ***** -->
+
+
+
+
+
+
                   <!-- ***** Menu Start ***** -->
 
 
 
                   <ul class="nav">
+                    {% comment %} {% if request.user.usaername == 'Estudiantes' %} {% endcomment %}
                       <li><a href="{% url 'admin:index' %}">Administración</a></li>
+                    {% comment %} {% endif %} {% endcomment %}
                       <li><a href="{% url 'home' %}">Portal Principal</a></li>
                         <!--  <li class="scroll-to-section"><a href="{% url 'home' %}" class="active">Home</a></li>-->
-                      <li><a href="{% url 'Pensum' %}">Pensums</a></li>
+                      <li><a href="{% url 'allcursos' %}">Catálogo de Cursos</a></li>
                       <!-- <li class="scroll-to-section"><a href="#apply">Inicio de Sesion</a></li> -->
                       <li class="has-sub">
                           <a href="javascript:void(0)">Estudiantes</a>
                           <ul class="sub-menu">
                               {% if request.user.is_authenticated %}
                                 <li><a href="{% url 'PE' %}">Perfil</a></li>
+                                {% comment %} <li><a href="{% url 'Asig' %}">Asignaciones</a></li> {% endcomment %}
                               {%else%}
                                 <li><a href="{% url 'registro' %}">Registrate</a></li>
                               {%endif%}
                               {% if request.user.is_authenticated %}
+                                
+                                <li><a href="{% url 'cursos_asignados' %}">Cursos</a></li>
                                 <li><a href="{% url 'salir' %}">Cerrar Sesion</a></li>
                               {%else%}
                                 <li><a href="{% url 'InicioE' %}">Inicio de Sesion</a></li>                             

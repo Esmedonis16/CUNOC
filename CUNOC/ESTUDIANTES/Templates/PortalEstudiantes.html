@@ -8,8 +8,20 @@
   <section>
     <div class="container">
       <h1 class="etiqueta-especial" style="color: white; top: 50px; right: -150px;">Bienvenido {{ cliente.first_name }} {{ cliente.last_name }}</h1>
+      
     </div>
   </section>
+  <!-- Mostrando mensajes --> 
+  {% if messages %}
+  <div class="alert-messages">
+      {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+  <!-- Fin de la sección de mensajes -->
 
   <section class="vh-100">
     <div class="container py-5 h-100">

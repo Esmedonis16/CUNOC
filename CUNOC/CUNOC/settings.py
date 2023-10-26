@@ -119,7 +119,7 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
     },
     
-     # Use modals instead of popups
+    # Use modals instead of popups
     "related_modal_active": False,
     
     "changeform_format": "horizontal_tabs",

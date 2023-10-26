@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
-from .models import inges, Registros, EstudianteCurso
+from .models import inges, Registros, EstudianteCurso, cursos
 from django.views.generic import View
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
+from ESTUDIANTES.models import allusuarios
 #from axes.utils import reset
 
 
@@ -70,9 +71,9 @@ class RDocentes(View):
         
 
 
-def cursos_del_estudiante(request):
-    # Filtra los cursos basados en el usuario actual
-    cursos_inscritos = EstudianteCurso.objects.filter(estudiante=request.user, asignado=True)
-    return render(request, 'CursosAsig.html', {'cursos_inscritos': cursos_inscritos})
+# def cursos_del_estudiante(request):
+#     usuario_actual = allusuarios.objects.get(user=request.user)
+#     cursos_asignados = EstudianteCurso.objects.filter(estudiante=usuario_actual)
 
+    # return render(request, 'CursosAsig.html', {'cursos_asignados': cursos_asignados})
 
