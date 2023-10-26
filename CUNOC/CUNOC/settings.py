@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #MyApps
+    'contraseña_olvidada',
     'Admin_y_Docentes',
     'ESTUDIANTES', 
 
@@ -218,7 +219,7 @@ STATICFILES_DIRS = [
 
 
 # Emails
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackEnd"
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS=True #seguridad de transporte
 EMAIL_PORT = 587
