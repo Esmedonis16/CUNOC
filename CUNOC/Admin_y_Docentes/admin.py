@@ -45,7 +45,8 @@ class DocenteAdmin(admin.ModelAdmin):
     user_groups.short_description = 'Rol'    
 
 class allusuariosAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_active_display']
+    list_display = ['username', 'email', 'first_name', 'last_name', ]
+    list_filter = ()
     
     def is_active_display(self, obj):
         return obj.is_active
@@ -65,7 +66,7 @@ class CursosAdmin(admin.ModelAdmin):
     list_display = ['codigo', 'nombre', 'descripcion', 'costo', 'horarioinicio', 'horariofin',
                     'cupo', 'docentes','imagen', 'num_estudiantes_inscritos']
     ordering = ['nombre']
-    search_fields = ['nombre', 'codigo', 'docentes__nombre']  
+    search_fields = ['nombre', 'codigo', 'docentes__nombre','estudiantes_asignados']  
     list_per_page = 15  # Cantidad de items por página
     #filter_horizontal = ('estudiantes_inscritos',)  
     
@@ -76,16 +77,17 @@ class CursosAdmin(admin.ModelAdmin):
     
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-            return qs
-        return qs.filter(docentes__user=request.user)
-
-
-    # def get_form(self, request, obj=None, **kwargs):
-    #     form = super().get_form(request, obj, **kwargs)
-    #     if not request.user.is_superuser and request.user.groups.filter(name='Docentes').exists():
-    #         form.base_fields['estudiantes_inscritos'].queryset = allusuarios.objects.filter(cursos_inscritos__docentes__user=request.user)
-    #     return form
+        if request.user.is_superuser:
+            return qs # El superusuario ve todos los cursos
+        elif request.user.groups.filter(name='Docentes').exists():
+            return qs.filter(docentes__user=request.user)# Filtra los cursos por el docente conectado
+        else:
+            usuario_actual = allusuarios.objects.get(user=request.user)
+            if request.user.groups.filter(name='Estudiantes').exists():
+            # Filtra los cursos a los que el estudiante se ha asignado
+                return qs.filter(estudiantecurso__estudiante=usuario_actual)
+        return qs
+    
     inlines = [CursoInline]
 
 
@@ -93,51 +95,19 @@ class CursosAdmin(admin.ModelAdmin):
 class EstudianteCursoAdmin(admin.ModelAdmin): 
     
     list_display = ['estudiante', 'curso', 'asignado']   
-    search_fields = ['estudiante__username', 'curso__nombre'] 
+    search_fields = ['curso__nombre','estudiantes_asignados'] 
     
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-            return qs
-        return qs.filter(curso__docentes__user=request.user)
+        if request.user.is_superuser:
+            return qs  
+        elif request.user.groups.filter(name='Docentes').exists():
+            return qs.filter(curso__docentes__user=request.user)
+        elif request.user.groups.filter(name='Estudiantes').exists():
+            usuario_actual = allusuarios.objects.get(user=request.user)
+            return qs.filter(estudiantecurso__estudiante=usuario_actual)
+        return qs 
 
-
-# class EstudianteCursoAdmin(admin.ModelAdmin): 
-    
-#     list_display = [ 'asignado', 'user_groups','mostrar_cursos']   
-#     search_fields = ['user__username', 'user__groups__name'] 
-#     #list_filter = ['user__groups']
-    
-    
-#     def mostrar_cursos(self, obj):
-#         return ", ".join([cursos.nombre for cursos in obj.cursos_set.all()])
-    
-#     def get_queryset(self, request):
-#         qs = super().get_queryset(request)
-#         if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-#             return qs
-#         return qs.filter(curso__docentes__user=request.user)
-    
-#     def user_groups(self, obj):
-#         return ", ".join([group.name for group in obj.user.groups.all().order_by('name')])
-    
-#     user_groups.short_description = 'Curso asignado'    
-
-#     def save_model(self, request, obj, form, change):
-#         if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-#             super().save_model(request, obj, form, change)
-#         else:
-#             user_groups = request.user.groups.all()
-#             if obj.curso.docentes.user.groups.filter(name__in=[group.name for group in user_groups]).exists():
-#                 super().save_model(request, obj, form, change)
-                
-#         # Guarda la nota del estudiante si el docente tiene permiso.
-#         if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-#             nota = form.cleaned_data['nota']
-#             obj.nota = nota
-#             obj.save()
-
-# admin.site.register(EstudianteCurso, EstudianteCursoAdmin)
 
 
 @admin.register(Notas)
@@ -152,9 +122,25 @@ class NotasAdmin(admin.ModelAdmin):
         return obj.nota if obj.nota else None
 
     nota_final.short_description = 'Nota Final'
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        # Si el campo es 'curso' y el usuario no es superusuario
+        if db_field.name == "curso" and not request.user.is_superuser:
+            if request.user.groups.filter(name='Docentes').exists():
+                kwargs["queryset"] = cursos.objects.filter(docentes__user=request.user)
+            elif request.user.groups.filter(name='Estudiantes').exists():
+                usuario_actual = allusuarios.objects.get(user=request.user)
+                kwargs["queryset"] = cursos.objects.filter(estudiantes_asignados=usuario_actual)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='Docentes').exists():
-            return qs
-        return qs.filter(curso__docentes__user=request.user)
+        if request.user.is_superuser:
+            return qs  
+        elif request.user.groups.filter(name='Docentes').exists():
+            return qs.filter(curso__docentes__user=request.user)
+        elif request.user.groups.filter(name='Estudiantes').exists():
+            usuario_actual = allusuarios.objects.get(user=request.user)
+            return qs.filter(estudiantecurso__estudiante=usuario_actual)
+        return qs 
