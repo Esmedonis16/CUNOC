@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,8 +16,13 @@
     <h1>Restablecimiento de Contraseña</h1>
 
 
-    Hola {{ cliente.first_name }} {{ cliente.last_name }}.<br/>
-    Este correo se ha generado de manera automática debido a que se han intentado ingresar demasiadas veces a tu cuenta Estudianntil<br/>
+    Hola {{ nombreusuario }}.<br/>
+    Este correo se ha generado de manera automática debido a que se han intentado ingresar demasiadas veces a tu cuenta Estudiantil<br/>
+
+    <li class="nav-item {% if request.path == '/Admin_y_Docentes/reset_password/' %}active{% endif %}">
+        <a class="nav-link" href="{{ dominio }}{% url 'reset_password' %}">Recuperar cuenta</a>
+    </li>
+    
     </body>
 
 </html>

@@ -195,6 +195,16 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'ESTUDIANTES.password_validators.UppercaseValidator',
+    },
+    {
+        'NAME': 'ESTUDIANTES.password_validators.DigitValidator',
+    },
+    {
+        'NAME': 'ESTUDIANTES.password_validators.SymbolValidator',
+    },
+
 ]
 
 
@@ -234,12 +244,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-AXES_FAILURE_LIMIT = 10
-AXES_LOCKOUT_CALLABLE = "main.views.lockout"
+AXES_FAILURE_LIMIT = 3
+AXES_COOLOFF_TIME = 2
+AXES_LOCKOUT_CALLABLE = "ESTUDIANTES.views.lockout"
 AXES_ONLY_USER_FAILURES = True
 
-AXES_LOCKOUT_CALLABLE = "autenticacion.views.lockout"
-AXES_ONLY_USER_FAILURES = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

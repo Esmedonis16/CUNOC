@@ -30,7 +30,7 @@ class allusuarios(models.Model):
 
 
 @receiver(post_save, sender=allusuarios)
-def add_user_to_docentes_group(sender, instance, created, **kwargs):
+def add_user_to_estudiantes_group(sender, instance, created, **kwargs):
     if created:
         try:
             est_group, created = Group.objects.get_or_create(name='Estudiantes')
