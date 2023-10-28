@@ -20,12 +20,21 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
+
+
+
 from django.shortcuts import get_object_or_404, redirect
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def inscribir_curso(request, curso_id):
     curso = get_object_or_404(cursos, id=curso_id)
-    
+
     print("Grupos del usuario:", request.user.groups.values_list('name', flat=True))
 
     if request.user.groups.filter(name='Estudiantes').exists():  # Comprobar si el usuario pertenece al grupo 'Estudiantes'
@@ -43,6 +52,22 @@ def inscribir_curso(request, curso_id):
                     asignacion.asignado = True  
                     asignacion.save()  
                     messages.success(request, 'Has sido asignado al curso exitosamente.')
+
+                    # Enviar correo de confirmación
+                    subject = 'Confirmación de Inscripción de Curso'
+                    message = render_to_string('cursos_asignados.html', {
+                        'user': request.user,
+                        'curso': curso
+                    })
+
+                    email = EmailMessage(
+                        subject,
+                        message,
+                        'academiacunoc@gmail.com',
+                        [request.user.email]
+                    )
+                    email.content_subtype = 'html'
+                    email.send()
                 else:
                     messages.warning(request, 'Ya estás asignado a este curso.')
             else:
@@ -55,6 +80,7 @@ def inscribir_curso(request, curso_id):
 
     return redirect('allcursos')
 
+
 @login_required
 def pensum(request):
     pensum = cursos.objects.filter(cupo__gt=0)
@@ -66,32 +92,8 @@ def cursos_asignados(request):
     usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
     asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
         
-#     enviar_mail(
-#         asignaciones = asignaciones,
-#         asignacion_aprobada = asignaciones,
-#         nombreusuario = request.user.username,
-#         emailusuario = request.user.email
-#     )
 
     return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
-
-# def enviar_mail(asignaciones, asignacion_aprobada, cliente, emailusuario, **kwargs):
-
-#     asunto="Asignaciones Realizadas"
-#     mensaje = render_to_string("emails/asignacion.html",{
-
-#         "asignaciones": asignaciones,
-#         "lineas_pedido": asignacion_aprobada,
-#         "cliente": cliente
-
-#     })
-
-
-#     mensaje_texto=strip_tags(mensaje)
-#     from_email="academiacunoc@gmail.com"         ########Correo desde el que se envia   
-#     to=emailusuario               ########Correo desde al que se envia
-
-#     send_mail(asunto, mensaje_texto, from_email, [to], html_message=mensaje)
 
 
 
