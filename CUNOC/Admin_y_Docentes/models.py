@@ -55,7 +55,7 @@ def add_user_to_docentes_group(sender, instance, created, **kwargs):
 class cursos(models.Model):
     
     codigo = models.CharField(max_length=4, null=False, unique=True)
-    nombre = models.CharField(max_length=50, null=False)
+    nombre = models.CharField(max_length=50, null=False, verbose_name='Nombre del curso')
     descripcion = models.CharField(max_length=100, null=False)
     costo = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     horarioinicio = models.CharField(max_length=150, null=False, verbose_name='Inicio')

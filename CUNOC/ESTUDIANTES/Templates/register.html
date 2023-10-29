@@ -1,4 +1,4 @@
-<form action="{% url 'register' %}" method="POST">
+{% comment %} <form action="{% url 'register' %}" method="POST">
 
     {% csrf_token %}
     <label for=""> Email:</label>
@@ -21,4 +21,4 @@
     <span> {{message}}</span>
     {% endfor %}
 </div>
-
+ {% endcomment %}

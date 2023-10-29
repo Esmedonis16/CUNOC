@@ -11,18 +11,11 @@ from Admin_y_Docentes.models import cursos, EstudianteCurso
 #from Admin_y_Docentes.models import cursos
 from django.contrib import messages
 from django.utils.html import strip_tags
-
-#from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User #,auth, 
+from django.contrib.auth.models import User 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.core.mail import send_mail
-
-
-
-
-
 from django.shortcuts import get_object_or_404, redirect
 
 from django.core.mail import EmailMessage
@@ -30,6 +23,22 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+
+
+
+@login_required
+def pensum(request):
+    pensum = cursos.objects.filter(cupo__gt=0)
+    return render(request, 'pensum.html', {'pensum': pensum})
+
+
+@login_required
+def cursos_asignados(request):
+    usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
+    asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
+        
+
+    return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
 
 @login_required
 def inscribir_curso(request, curso_id):
@@ -52,12 +61,15 @@ def inscribir_curso(request, curso_id):
                     asignacion.asignado = True  
                     asignacion.save()  
                     messages.success(request, 'Has sido asignado al curso exitosamente.')
+                    
+                    asignaciones = EstudianteCurso.objects.filter(estudiante=allusuario_instance)
+                    cursos_asignados = [asignacion.curso for asignacion in asignaciones]
 
                     # Enviar correo de confirmación
                     subject = 'Confirmación de Inscripción de Curso'
-                    message = render_to_string('cursos_asignados.html', {
+                    message = render_to_string('emails/asignacion.html', {
                         'user': request.user,
-                        'curso': curso
+                        'cursos': cursos_asignados
                     })
 
                     email = EmailMessage(
@@ -82,19 +94,49 @@ def inscribir_curso(request, curso_id):
 
 
 @login_required
-def pensum(request):
-    pensum = cursos.objects.filter(cupo__gt=0)
-    return render(request, 'pensum.html', {'pensum': pensum})
+def eliminar_curso(request, curso_id):
+    curso = get_object_or_404(cursos, id=curso_id)
 
+    if request.user.groups.filter(name='Estudiantes').exists():  
+        allusuario_instance = allusuarios.objects.get(user=request.user)
 
-@login_required
-def cursos_asignados(request):
-    usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
-    asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
+        # Consulta alternativa
+        asignaciones = EstudianteCurso.objects.filter(estudiante=allusuario_instance, curso=curso)
+        
+        if asignaciones.exists():  # Verificamos si hay registros que coinciden
+            for asignacion in asignaciones:
+                asignacion.delete()  # Eliminamos cada registro que coincide
+
+            curso.cupo += 1  # Incrementamos el cupo del curso
+            curso.save()
+            
+            
+            asignaciones = EstudianteCurso.objects.filter(estudiante=allusuario_instance)
+            cursos_desasignados = [asignacion.curso for asignacion in asignaciones]
         
 
-    return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
+            # Enviar correo de confirmación de desasignación
+            subject = 'Confirmación de Desasignación de Curso'
+            message = render_to_string('emails/desasignacion.html', {
+                'user': request.user,
+                'cursos': cursos_desasignados
+            })
 
+            email = EmailMessage(
+                subject,
+                message,
+                'academiacunoc@gmail.com',
+                [request.user.email]
+            )
+            email.content_subtype = 'html'
+            email.send()
+        else:
+            messages.warning(request, 'No estás asignado a este curso para poder eliminarlo.')
+            
+    messages.success(request, 'Has sido desasignado al curso exitosamente.')
+    return redirect('cursos_asignados')
+
+ 
 
 
 def home(request):
@@ -142,6 +184,8 @@ def iniciar_sesion_estudiantes(request):
             messages.error(request, "Información no válida")
     form = AuthenticationForm()
     return render(request, "LoginEstudiantes.html", {"form": form})
+
+
 
 class VRegistro(View):
     def get(self, request):
@@ -204,3 +248,33 @@ def success(request):
     return render(request, 'success.html')
 
 
+
+
+
+def lockout(request, credentials, *args, **kwargs):
+    # Obtener el usuario directamente en lugar de iterar
+    user = get_object_or_404(User, username=credentials["username"])
+    correo_usuario = user.email
+    
+    try:
+        enviar_mail(
+            nombreusuario=user.username,
+            emailusuario=correo_usuario
+        )
+    except Exception as e:  # Captura la excepción real
+        print(f"No se ha podido enviar el correo debido a: {e}")
+    
+    return render(request, "lockout.html")
+
+def enviar_mail(nombreusuario, emailusuario):
+    if not nombreusuario or not emailusuario:
+        raise ValueError("Se requieren el nombre de usuario y el correo electrónico")
+    
+    asunto = "Restablecimiento de Contraseña"
+    dominio = 'http://127.0.0.1:8000/'  # Cambia esto por el dominio real de tu sitio
+    mensaje = render_to_string("emails/reset_pass.html", {"nombreusuario": nombreusuario,"dominio": dominio })
+    mensaje_texto = strip_tags(mensaje)
+    from_email = "academiacunoc@gmail.com"         
+    to = emailusuario         
+
+    send_mail(asunto, mensaje_texto, from_email, [to], html_message=mensaje)

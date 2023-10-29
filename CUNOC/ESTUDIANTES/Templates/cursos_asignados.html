@@ -4,8 +4,20 @@
 
 {% block content %}
 
-<section class="fondo-registro">
 
+<!-- Mostrando mensajes -->
+{% if messages %}
+<div class="alert-messages">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<!-- Fin de la sección de mensajes -->
+
+<section class="fondo-registro">
         <section>
             <div class="container">
                 <h1 class="etiqueta-especial" style="color: white; top: 50px; right: -150px;">Bienvenido a sus Cursos Asignados </h1>
@@ -27,13 +39,19 @@
                                                     <div class="thumb"> 
                                                             <a href="meeting-details.html"><img src="{{ asignacion.curso.imagen.url }}" alt="{{ asignacion.curso.nombre }}">
                                                                 <div class="down-content">
-                                                                    <a href="meeting-details.html"><h4>{{curso.nombre}}</h4></a>
+                                                                    
                                                                     <p><class="card-text">{{ asignacion.curso.descripcion }}<br><strong>Docente </strong>{{ asignacion.curso.docentes.first_name }} {{ asignacion.curso.docentes.last_name }}</p>
                                                                     
-                                            {% empty %}
+                                                                
+                                                                        <div class="card-body" style="text-align: center;">
+                                                                            <a href="{% url 'eliminar_curso' asignacion.curso.id  %}"><strong>DESASIGNAR</strong></a></div>
+                                                                
+
+                                                                    
+                                            {% empty %}                 
                                                 <li>No tienes cursos asignados.</li>
 
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </a>
                                                     </div>
