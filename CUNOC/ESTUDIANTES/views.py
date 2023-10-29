@@ -60,16 +60,13 @@ def inscribir_curso(request, curso_id):
                     curso.save()  
                     asignacion.asignado = True  
                     asignacion.save()  
-                    messages.success(request, 'Has sido asignado al curso exitosamente.')
                     
-                    asignaciones = EstudianteCurso.objects.filter(estudiante=allusuario_instance)
-                    cursos_asignados = [asignacion.curso for asignacion in asignaciones]
 
                     # Enviar correo de confirmación
                     subject = 'Confirmación de Inscripción de Curso'
                     message = render_to_string('emails/asignacion.html', {
                         'user': request.user,
-                        'cursos': cursos_asignados
+                        'curso': curso
                     })
 
                     email = EmailMessage(
@@ -89,8 +86,9 @@ def inscribir_curso(request, curso_id):
             messages.error(request, 'Tu perfil de estudiante no se encuentra.')
     else:
         messages.error(request, 'No tienes permisos para inscribirte en cursos.')
-
+    messages.success(request, 'Has sido asignado al curso exitosamente.')
     return redirect('allcursos')
+    
 
 
 @login_required
@@ -109,17 +107,13 @@ def eliminar_curso(request, curso_id):
 
             curso.cupo += 1  # Incrementamos el cupo del curso
             curso.save()
-            
-            
-            asignaciones = EstudianteCurso.objects.filter(estudiante=allusuario_instance)
-            cursos_desasignados = [asignacion.curso for asignacion in asignaciones]
         
 
             # Enviar correo de confirmación de desasignación
             subject = 'Confirmación de Desasignación de Curso'
             message = render_to_string('emails/desasignacion.html', {
                 'user': request.user,
-                'cursos': cursos_desasignados
+                'curso': curso
             })
 
             email = EmailMessage(
