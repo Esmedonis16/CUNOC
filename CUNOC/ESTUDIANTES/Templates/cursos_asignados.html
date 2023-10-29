@@ -41,7 +41,7 @@
                                                                 <div class="down-content">
                                                                     
                                                                     <p><class="card-text">{{ asignacion.curso.descripcion }}<br><strong>Docente </strong>{{ asignacion.curso.docentes.first_name }} {{ asignacion.curso.docentes.last_name }}</p>
-                                                                    
+                                                                    <p><class="card-text"><strong> Bienvenido al curso de {{ asignacion.curso.nombre }} </strong> </p>
                                                                 
                                                                         <div class="card-body" style="text-align: center;">
                                                                             <a href="{% url 'eliminar_curso' asignacion.curso.id  %}"><strong>DESASIGNAR</strong></a></div>

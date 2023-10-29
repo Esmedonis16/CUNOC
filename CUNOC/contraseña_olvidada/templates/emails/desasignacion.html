@@ -9,16 +9,14 @@
         <tr>
             <td style="background-color: #ecf0f1">
                 <div style="color: #34495e; margin:4% 10% 2%; text-align: justify; font-family: sans-serif">
-                    <h2 style="color: #e67e22; margin: 0 0 7px">Cursos Asignados</h2>
+                    <h2 style="color: #e67e22; margin: 0 0 7px">Cursos Desasignados</h2>
                     <p class="lead">
                         Hola {{user}}.<br/>
                         A continuación se adjuntan los cursos a los que te desasignaste:<br/>
                         <strong>Cursos:</strong>
                         <br/>
-                        {% for cursos in curso %}
-                            - {{ cursos.nombre }}
+                        - {{curso}}
                         <br/>
-                        {% endfor %}
                     </p>
                 </div>
             </td>

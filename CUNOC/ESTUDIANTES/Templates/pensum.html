@@ -4,6 +4,22 @@
 
 {% block content %}
 
+  <!-- Mostrando mensajes -->
+  {% if messages %}
+  <div class="alert-messages">
+      {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+  <!-- Fin de la sección de mensajes -->
+
+
+
+
+
   <section class="Bienvenidos a los cursos" id="top">
     <div class="container">
       <div class="row">
