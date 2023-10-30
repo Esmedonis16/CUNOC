@@ -231,7 +231,7 @@ body {
 .main-button-red a {
   font-size: 13px;
   color: #fff;
-  background-color: #a12c2f;
+  background-color: #00719B;
   padding: 12px 30px;
   display: inline-block;
   border-radius: 22px;
@@ -873,7 +873,7 @@ services
 }
 
 .services .item {
-  background-image: url(../images/service-item-bg.jpg);
+  background-image: url(../images/info-fondo.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -1358,7 +1358,7 @@ our facts
 */
 
 section.our-facts {
-  background-image: url(../images/facts-bg.jpg);
+  background-image: url(../images/nosotros.jpg);
   background-position: center center;
   background-attachment: fixed;
   background-repeat: no-repeat;
