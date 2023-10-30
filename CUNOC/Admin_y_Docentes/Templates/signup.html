@@ -26,25 +26,8 @@
 <link rel="stylesheet" href="{% static "css/lightbox.css" %}">
 <link rel="stylesheet" href="{% static "css/secciones.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/formato_crispy.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/etiqueta.css' %}">
 
-<style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            position: relative;
-        }
-
-        h1 {
-            position: absolute;
-            top: -75px; /* Aumenta este valor para mover más arriba */
-            right: -150px; /* Aumenta este valor para mover más a la derecha */
-            margin: 0; /* Elimina el margen para acercar el texto al borde */
-            color: white;
-        }
-</style>
 <!--
 
 TemplateMo 569 Edu Meeting
@@ -57,8 +40,8 @@ https://templatemo.com/tm-569-edu-meeting
 <body>
     <section class="fondo-docentes">
         <div class="container">
-        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-            <h1>Registro de Docentes</h1>
+        <div>
+            <h1 class="etiqueta-especial" style="top: -50px; right: 0px; color: with;">Registro Docentes</h1>
         </div>
 {%block content %}
 
