@@ -15,10 +15,11 @@
     margin: 0 ;
     color: white ;
 }
-
+/* 
     #unique-heading {
-        /* Estilos específicos para el h1 con ID "unique-heading" */
-    }
+        // Estilos específicos para el h1 con ID "unique-heading" 
+    } 
+    */
 
 .infoP {
     display: flex;
@@ -28,4 +29,12 @@
     /* Centra verticalmente */
     height: 100vh;
     /* Ajusta la altura al 100% de la ventana */
-}    
+}   
+
+
+
+/*Reconocimiento Facial*/
+.not-visible{
+    display: none;
+  }
+  

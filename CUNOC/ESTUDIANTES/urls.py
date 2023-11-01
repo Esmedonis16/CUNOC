@@ -17,4 +17,8 @@ urlpatterns = [
     path('', views.register, name="register"),
     path('success', views.success, name="success"),
     
+    path('InicioS/', views.InicioS, name='InicioS'),
+    path('Facial/', views.Facial, name='Facial'),
+    path('classify/', views.find_user_view, name='classify'),
+    
 ]

@@ -1,0 +1,29 @@
+{% extends "BaseHome.html"%}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<section class="section main-banner" id="top" data-section="section1">
+    <video autoplay muted loop id="bg-video">
+        <source src="{% static 'images/Inicio.mp4' %}" type="video/mp4" />
+    </video>
+
+    <div class="video-overlay header-text">
+        <div class="contenedor-padre">  <!-- Contenedor padre para centrar -->
+            <div class="form-containerL">
+                <div class="mt-3">
+                    <button class="btn btn-primary" id="capture-btn"><a href="{% url 'InicioE'%}">Texto</a></button>
+                    <button class="btn btn-info" id="reload-btn"><a href="{% url 'Facial'%}">Facial</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+
+
+{% endblock %}
