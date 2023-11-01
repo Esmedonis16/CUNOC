@@ -83,7 +83,7 @@ https://templatemo.com/tm-569-edu-meeting
                                 <li><a href="{% url 'salir' %}">Cerrar Sesion</a></li>
                               {%else%}
 
-                                <li><a href="{% url 'InicioE' %}">Inicio de Sesion</a></li>
+                                <li><a href="{% url 'InicioS' %}">Inicio de Sesion</a></li>
                                 <li class="nav-item {% if request.path == '/Admin_y_Docentes/reset_password/' %}active{% endif %}"><a class="nav-link" href="{% url 'reset_password'%}">Recuperar cuenta</a></li>
 
                               {%endif%}
@@ -110,9 +110,8 @@ https://templatemo.com/tm-569-edu-meeting
   <section class="contact-us" id="contact">
     
     <div class="footer">
-      <p>Copyright © 2022 Edu Meeting Co., Ltd. All Rights Reserved. 
-        <br>Design: N&H
-        <br>Distibuted By: <a href="https://themewagon.com" target="_blank" title="Build Better UI, Faster">ThemeWagon</a>
+      <p>Copyright © 2023 CUNOC USAC., Ltd. All Rights Reserved. 
+        <br>Design: Esmerala & Isaac
       </p>
     </div>
   </section>
@@ -129,6 +128,7 @@ https://templatemo.com/tm-569-edu-meeting
   <script src="{% static 'js/video.js' %}"></script>
   <script src="{% static 'js/slick-slider.js' %}"></script>
   <script src="{% static 'js/custom.js' %}"></script>
+  <script src="{% static 'js/login.js' %}" defer></script>
   <script>
       //according to loftblog tut
       $('.nav li:first').addClass('active');
@@ -175,6 +175,7 @@ https://templatemo.com/tm-569-edu-meeting
         checkSection();
       });
   </script>
+  
 </body>
 
 </body>
