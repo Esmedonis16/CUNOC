@@ -23,6 +23,7 @@ const getCookie = (name) => {
     }
     return cookieValue;
 }
+const csrftoken = getCookie('crsftoken')
 
 if (navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({video:true})
@@ -62,7 +63,7 @@ if (navigator.mediaDevices.getUserMedia){
                         contentType: false,
                         success: (resp) => {
                             console.log(resp)
-                            //window.location.href = window.location.origin
+                            window.location.href = window.location.origin
                         },
                         error: (err) => {
                             console.log(err)
