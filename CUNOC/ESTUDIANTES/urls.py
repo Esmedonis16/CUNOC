@@ -2,6 +2,10 @@ from django.urls import path
 from . import views
 from .views import VRegistro
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+
 
 urlpatterns = [
     path('logout/', views.salir, name='salir'),
@@ -17,4 +21,10 @@ urlpatterns = [
     path('', views.register, name="register"),
     path('success', views.success, name="success"),
     
+    path('InicioS/', views.InicioS, name='InicioS'),
+    path('Facial/', views.Facial, name='Facial'),
+    
+    path('classify/', views.find_user_view, name='classify'), 
 ]
+
+urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

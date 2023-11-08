@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'contraseña_olvidada',
     'Admin_y_Docentes',
     'ESTUDIANTES', 
+    'profiles', 
+    'logs', 
 
     #Third Apps
     'crispy_forms',
