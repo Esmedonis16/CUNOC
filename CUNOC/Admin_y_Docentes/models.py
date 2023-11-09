@@ -62,7 +62,8 @@ class cursos(models.Model):
     horariofin = models.CharField(max_length=150, null=False, verbose_name='Fin')
     estudiantes_inscritos = models.ManyToManyField(User, related_name='cursos_inscritos', blank=True)
     cupo = models.IntegerField(null=False)
-    docentes = models.ForeignKey('inges', on_delete=models.CASCADE)  
+    docentes = models.ForeignKey('inges', on_delete=models.CASCADE) 
+    
     imagen = models.ImageField(upload_to='PortadasCursos', default='users_pictures/default.png')
 
     def __str__(self):
@@ -79,11 +80,12 @@ class EstudianteCurso(models.Model):
     estudiante = models.ForeignKey(allusuarios, on_delete=models.CASCADE, verbose_name='Estudiante')
     curso = models.ForeignKey(cursos, on_delete=models.CASCADE, 
                             related_name= 'estudiantes_asignados', verbose_name='Curso')
+    
 
     asignado = models.BooleanField(default=False, verbose_name='Asignado y Pagado')
     
     def __str__(self):
-        return f'{self.estudiante.username} - {self.curso.nombre}'
+        return f'{self.estudiante.username} - {self.curso.nombre} '
 
 
     class Meta:

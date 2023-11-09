@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
+from django.http import HttpResponse
+from openpyxl import Workbook
 from .models import inges, cursos, Notas, Registros, EstudianteCurso
 from django.urls import reverse
 from django.utils.html import format_html
@@ -42,7 +44,7 @@ class DocenteAdmin(admin.ModelAdmin):
     def user_groups(self, obj):
         return ", ".join([group.name for group in obj.user.groups.all().order_by('name')])
     
-    user_groups.short_description = 'Rol'    
+    user_groups.short_description = 'Rol'   
 
 class allusuariosAdmin(admin.ModelAdmin):
     list_display = ['username', 'email', 'first_name', 'last_name', ]
@@ -114,33 +116,83 @@ class EstudianteCursoAdmin(admin.ModelAdmin):
 class NotasAdmin(admin.ModelAdmin):
     
     
-    list_display = ('estudiante', 'curso', 'nota', 'descripcion')
+    list_display = ('estudiante', 'curso', 'nota', 'descripcion',)
     list_filter = ('curso',)
     search_fields = ('estudiante__username', 'curso__nombre')
+    actions = ['exportar_notas_a_excel']
 
     def nota_final(self, obj):
         return obj.nota if obj.nota else None
 
     nota_final.short_description = 'Nota Final'
+
     
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # Si el campo es 'curso' y el usuario no es superusuario
-        if db_field.name == "curso" and not request.user.is_superuser:
-            if request.user.groups.filter(name='Docentes').exists():
-                kwargs["queryset"] = cursos.objects.filter(docentes__user=request.user)
-            elif request.user.groups.filter(name='Estudiantes').exists():
-                usuario_actual = allusuarios.objects.get(user=request.user)
-                kwargs["queryset"] = cursos.objects.filter(estudiantes_asignados=usuario_actual)
+        """ Restringe las opciones de estudiantes y cursos en el formulario de notas basado en la inscripción y asignación del curso. """
+        if db_field.name == 'estudiante':
+            if request.user.is_superuser:
+                kwargs["queryset"] = allusuarios.objects.all()
+            else:
+                docente = get_object_or_404(inges, user=request.user)
+                cursos_del_docente = cursos.objects.filter(docentes=docente)
+                kwargs["queryset"] = allusuarios.objects.filter(
+                    estudiantecurso__curso__in=cursos_del_docente,
+                    estudiantecurso__asignado=True
+                ).distinct()
+        elif db_field.name == "curso" and not request.user.is_superuser:
+            docente = get_object_or_404(inges, user=request.user)
+            kwargs["queryset"] = cursos.objects.filter(docentes=docente)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
-            return qs  
+            return qs
         elif request.user.groups.filter(name='Docentes').exists():
-            return qs.filter(curso__docentes__user=request.user)
-        elif request.user.groups.filter(name='Estudiantes').exists():
-            usuario_actual = allusuarios.objects.get(user=request.user)
-            return qs.filter(estudiantecurso__estudiante=usuario_actual)
-        return qs 
+            docente = get_object_or_404(inges, user=request.user)
+            cursos_del_docente = cursos.objects.filter(docentes=docente)
+            # Asegúrate de referenciar la relación y el campo correcto
+            estudiantes_ids = EstudianteCurso.objects.filter(
+                curso__in=cursos_del_docente, 
+                asignado=True
+            ).values_list('estudiante__user__id', flat=True)  # Aquí estudiante es un allusuarios, por lo que se usa user__id
+            return qs.filter(curso__in=cursos_del_docente, estudiante__user__id__in=estudiantes_ids)
+        return qs.none()
+
+    @admin.action(description='Exportar Notas a Excel')  # Decorador de acción correcto
+    def exportar_notas_a_excel(self, request, queryset):
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Notas de los Cursos'
+
+        # Agrega los encabezados de las columnas
+        columns = ['Profesor', 'Curso', 'Estudiante', 'Nota', 'Comentario']
+        ws.append(columns)
+
+        # Itera sobre el queryset para obtener los cursos del profesor
+        for nota in queryset:
+            curso = nota.curso
+            docente = curso.docentes
+            estudiante = nota.estudiante
+            row = [
+                docente.user.get_full_name(),
+                curso.nombre,
+                estudiante.user.get_full_name(),
+                nota.nota,
+                nota.descripcion
+            ]
+            ws.append(row)
+
+        # Establece el nombre del archivo Excel
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        )
+        response['Content-Disposition'] = 'attachment; filename="notas_del_profesor.xlsx"'
+        wb.save(response)
+
+        return response
+
+    exportar_notas_a_excel.short_description = "Exportar Notas a Excel"
+
