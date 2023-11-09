@@ -4,8 +4,7 @@ from profiles.models import Profile
 
 
 def is_ajax(request):
-    return request.headers.get('x-request-with') == 'XMLHttpRequest'
-
+    return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
 def get_encoded_faces():
     """
@@ -40,45 +39,46 @@ def get_encoded_faces():
     return encoded
 
 
-def classiffy_face(img):
+def classify_face(img):
     """
-    Esta funcion toma una imagen como input y regresa el nombre del rostro si existe uno
+    Esta función toma una imagen como input y regresa el nombre del rostro si existe uno
     """
-    #Cargando todas las caras conocidas y su codificaciones
+    # Cargando todas las caras conocidas y su codificaciones
     faces = get_encoded_faces()
     faces_encoded = list(faces.values())
-    know_face_names = list(faces.keys())
+    known_face_names = list(faces.keys())
     
-    #Cargando la imagen de input
-    img = fr.load_image_file(img)
-    
+    # Cargando la imagen de input
     try:
-        #Encontrando todos los rsotros en la imagen input
+        img = fr.load_image_file(img)
+        # Encontrando todos los rostros en la imagen input
         face_locations = fr.face_locations(img)
+        # Codificar los rostros en la imagen Input
+        unknown_face_encodings = fr.face_encodings(img, face_locations)
         
-        #Codificar los rostros en la imagen Input
-        unknow_face_encodings = fr.face_encodings(img, face_locations)
-        
-        #Identificar los rostros de la imagen input
-        face_names =[]
-        for face_encoding in unknow_face_encodings:
-            #Comparar la codificacion de la cara actual con las codificaciones de todas
+        # Identificar los rostros de la imagen input
+        face_names = []
+        for face_encoding in unknown_face_encodings:
+            # Comparar la codificacion de la cara actual con las codificaciones de todas
             matches = fr.compare_faces(faces_encoded, face_encoding)
-            
-            #Encuentra la cara conocida con la codificacion mas cercana a la cara actual
+            # Encuentra la cara conocida con la codificacion mas cercana a la cara actual
             face_distances = fr.face_distance(faces_encoded, face_encoding)
             best_match_index = np.argmin(face_distances)
             
-            #Si la cara conocida mas cercana coincide con la cara actual, etiqueta la cara
+            # Si la cara conocida mas cercana coincide con la cara actual, etiqueta la cara
             if matches[best_match_index]:
-                name = know_face_names[best_match_index]
+                name = known_face_names[best_match_index]
             else:
                 name = "Desconocido"
             
             face_names.append(name)
-            
-        #Devolver el nombre de la primera cara de la imagen de entrada
-        return face_names[0]
-    except:
-        #Si no se encuentran caras en la imagen de entrada o se produce un error, devuelve
-        return False  
+        
+        # Devolver el nombre de la primera cara de la imagen de entrada
+        if face_names:
+            return face_names[0]
+        else:
+            return None  # No se encontró ninguna cara
+    except Exception as e:
+        # Si ocurre un error durante el proceso de reconocimiento facial, imprime el error y devuelve None o False
+        print(f"An error occurred in classify_face: {e}")
+        return None  # O podrías decidir devolver un mensaje de error específico o código.

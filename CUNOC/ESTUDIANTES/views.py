@@ -26,12 +26,13 @@ from django.contrib.auth.decorators import login_required
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .utils import is_ajax, classiffy_face
+from .utils import is_ajax, classify_face
 import base64
 from logs.models import Log
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from profiles.models import Profile
+
 
 
 @login_required
@@ -289,23 +290,27 @@ def enviar_mail(nombreusuario, emailusuario):
     send_mail(asunto, mensaje_texto, from_email, [to], html_message=mensaje)
     
     
+# Asegúrate de que is_ajax está definida en alguna parte de tu código o usa esta implementación
+def is_ajax(request):
+    return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+@require_POST
 def find_user_view(request):
-    #si es capaz de encontrar el usuario
-    if is_ajax(request):
+    try:
         photo = request.POST.get('photo')
-        _, str_img = photo.split(';base64')
-
-        #print(photo)
+        format, str_img = photo.split(';base64,')  # Asegúrate de que el split es correcto
         decoded_file = base64.b64decode(str_img)
-        print(decoded_file)
 
-        x=Log()
+        # Guardamos la foto en el modelo Log
+        x = Log()
         x.photo.save('foto_cargada.png', ContentFile(decoded_file))
         x.save()
 
-        res = classiffy_face(x.photo.path)
+        # Llamada a la función que clasifica la foto
+        res = classify_face(x.photo.path)
+        
         if res:
-            user_exists =User.objects.filter(username=res).exists()
+            user_exists = User.objects.filter(username=res).exists()
             if user_exists:
                 user = User.objects.get(username=res)
                 profile = Profile.objects.get(user=user)
@@ -314,6 +319,7 @@ def find_user_view(request):
                 login(request, user)
                 return JsonResponse({'success': True})
         return JsonResponse({'success': False})
-
-
-
+    
+    except Exception as e:
+        # Manejo de cualquier excepción que ocurra durante el proceso
+        return JsonResponse({'error': str(e)}, status=500)
