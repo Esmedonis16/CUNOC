@@ -239,6 +239,11 @@ class VRegistro(View):
             nuevo_usuario = allusuarios(user=request.user, username=request.user.username, first_name=request.user.first_name,
                                         last_name=request.user.last_name, email=request.user.email, cui=ncui, profile_image=img)
             nuevo_usuario.save()
+
+            # Aquí creamos el perfil asociado al usuario
+            perfil, creado = Profile.objects.get_or_create(user=request.user)
+            perfil.photo = img  # Asignamos la imagen de perfil al objeto Profile
+            perfil.save()  # Guardamos los cambios en el objeto Profile
             
             messages.success(request, "Registro exitoso")
             return redirect('home')
