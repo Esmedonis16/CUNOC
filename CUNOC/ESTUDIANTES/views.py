@@ -43,32 +43,8 @@ def pensum(request):
         
 @login_required
 def cursos_asignados(request):
-    usuario_actual = allusuarios.objects.get(user=request.user)
-    asignaciones = EstudianteCurso.objects.filter(
-        estudiante=usuario_actual,
-        asignado=True
-    ).select_related('curso', 'notas' )  # Esto obtendrá también el objeto del curso relacionado.
-
-    # Ahora recorreremos las asignaciones y obtendremos la nota para cada curso.
-    cursos_y_estados = []
-    for asignacion in asignaciones:
-        nota_curso = Notas.objects.filter(
-            estudiante=usuario_actual,
-            curso=asignacion.curso
-        ).first()
-
-        estado_curso = 'No definido'
-        if nota_curso:
-            estado_curso = 'Aprobado' if nota_curso.nota >= 61 else 'Desaprobado'
-
-        cursos_y_estados.append({
-            'asignacion': asignacion,
-            'estado_curso': estado_curso,
-        })
-
-    context = {
-        'cursos_y_estados': cursos_y_estados,
-    }
+    usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
+    asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
     return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
 
 

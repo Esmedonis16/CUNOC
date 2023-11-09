@@ -35,8 +35,8 @@
                                 <div class="col-lg-3 templatemo-item-col all soon">
                                     <div class="meeting-item">
                                         <div class "row row-cols-1 row-cols-md-3 g-4 my-4">
-                                            {% comment %} {% for asignacion in asignaciones %} {% endcomment %}
                                             {% for asignacion in asignaciones %}
+                                            
                                                     <div class="thumb"> 
                                                             <a href="meeting-details.html">
                                                                 <img src="{{ asignacion.curso.imagen.url }}" alt="{{ asignacion.curso.nombre }}">
@@ -44,7 +44,7 @@
                                                                     
                                                                     <p><class="card-text">{{ asignacion.curso.descripcion }}<br><strong>Docente </strong>{{ asignacion.curso.docentes.first_name }} {{ asignacion.curso.docentes.last_name }}</p>
                                                                     <p><class="card-text"><strong> Bienvenido al curso de {{ asignacion.curso.nombre }} </strong> </p>
-                                                                    <p><strong>Estado del curso: </strong>{{ asignacion.cursos_y_estados }}<strong>Nota </strong>{{ asignacion.notas.nota }} </p>
+                                                                    
                                                                         <div class="card-body" style="text-align: center;">
                                                                             <a href="{% url 'eliminar_curso' asignacion.curso.id  %}"><strong>DESASIGNAR</strong></a></div>
                                                                 
