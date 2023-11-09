@@ -1,0 +1,61 @@
+{% extends "BaseHome.html"%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+    <section class="section main-banner" id="top" data-section="section1">
+        <video autoplay muted loop id="bg-video">
+            <source src="{% static 'images/Inicio.mp4' %}" type="video/mp4" />
+        </video>
+
+ 
+
+        <div class="video-overlay header-text">
+            <div class="contenedor-padre">  <!-- Contenedor padre para centrar -->
+                <div class="form-containerL">
+                    <!-- Aquí tu formulario y el resto del contenido -->        
+                    <!-- <form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        {% if messages %}
+                            {%for mensaje in messages%}
+                                <div class="alert alert-danger text-center">{{mensaje}}</div>
+                            {% endfor %}
+                        {% endif %}       
+                        <div class="col text-center" style="margin-top: 20px;">
+                            <button class="btn btn-success regular-button">Registrar</button>
+                        </div>
+                    </form>     -->   
+                    <form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="col text-center" style="margin-top: 20px;">
+                            <button class="btn btn-success regular-button">Iniciar Sesión</button>
+                    </div>
+
+
+
+                    </form>
+
+                    <!-- Mostrando mensajes -->
+                    {% if messages %}
+                        <div class="alert-messages" style="color: white; top: 0px; right: 0px;">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    <!-- Fin de la sección de mensajes -->
+
+                </div> 
+
+            </div>  <!-- Fin del contenedor padre -->
+
+        </div>
+        
+    </section>
+
+{% endblock %}

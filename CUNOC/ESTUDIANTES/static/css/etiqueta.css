@@ -1,0 +1,40 @@
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        position: relative;
+    }
+
+.etiqueta-especial {
+    position: absolute ;
+    top: -75px ;
+    right: -150px ;
+    margin: 0 ;
+    color: white ;
+}
+/* 
+    #unique-heading {
+        // Estilos específicos para el h1 con ID "unique-heading" 
+    } 
+    */
+
+.infoP {
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100vh;
+    /* Ajusta la altura al 100% de la ventana */
+}   
+
+
+
+/*Reconocimiento Facial*/
+.not-visible{
+    display: none;
+  }
+  

@@ -1,0 +1,24 @@
+{% extends "BaseHome.html"%}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<section class="fondo-login">
+	<div class="container">
+		<h1 class="etiqueta-especial" style="color: white; top: 150px; right: 500px;">Cuenta Bloqueada </h1>
+	</div>		
+	<div class="contenedor-padre">  <!-- Contenedor padre para centrar -->
+    <div class="form-containerL">
+		<hr/>
+		<div style="width: 100%; margin:auto;">
+			<h5 style="color: #FFFFFF;">Se han detectado demasiados intentos fallidos de iniciar sesión, por lo que se ha bloqueado tu cuenta.</h5>
+			<br/>
+			<h5 style="color: #FFFFFF;">Te hemos enviado un correo para que puedas recuperar tu cuenta.</h5>
+		</div>
+		<hr/>
+	</div>
+	</div>
+</section>	
+
+{% endblock %}

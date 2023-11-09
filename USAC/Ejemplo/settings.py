@@ -34,9 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'admin_interface',
 
-    'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,7 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #MyApps
-    'main',
+    'Admin_y_Docentes',
+    #'Isaac.app.IsaacConfig', 
+    'loginout',
+    'Isaac',
 
     #Third Apps
     'crispy_forms',
@@ -54,16 +55,14 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     
 
-    'colorfield',
-
 ]
 
-X_FRAME_OPTION='SAMEORIGIN'
+X_FRAME_OPTION = 'SAMEORIGIN'
 
 JAZZMIN_UI_TWEAKS = {
-    # "theme": "cosmo",
-    # "theme": "flatly",
-    "theme": "litera",
+     "theme": "cosmo",
+    #"theme": "flatly",
+    #"theme": "darkly",
 }
 
 JAZZMIN_SETTINGS = {
@@ -72,7 +71,9 @@ JAZZMIN_SETTINGS = {
     "site_logo": "img/logo-cunoc.png",
     "login_logo": "img/logo-cunoc.png",
     "site_icon": None,
-    "user_avatar": "admin/logo-cunoc.png",
+   "user_avatar": "img/logo-cunoc.png",
+    "custom_css": "static/css/custom.css",
+    "welcome_sign": "Bienvenidos al Panel de Administración",
 
 }
 
@@ -94,7 +95,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'axes.middleware.AxesMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'Ejemplo.urls'
@@ -127,6 +127,7 @@ DATABASES = db.POSTGRESQL
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -146,12 +147,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
-
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-eu'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -159,10 +158,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    #os.path.join(BASE_DIR, 'users_pictures'),
+    # os.path.join(BASE_DIR, 'users_pictures'),
 ]
 
 # Default primary key field type
@@ -170,24 +168,31 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_TEMPLATE_PACK='bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AXES_FAILURE_LIMIT = 10
 AXES_LOCKOUT_CALLABLE = "main.views.lockout"
-AXES_ONLY_USER_FAILURES	= True
+AXES_ONLY_USER_FAILURES = True
 
 AXES_LOCKOUT_CALLABLE = "autenticacion.views.lockout"
-AXES_ONLY_USER_FAILURES	= True
+AXES_ONLY_USER_FAILURES = True
 
-#Emails
-
-#EMAIL_BACKEND="django.core.mail.backends.smtp.emailBackEnd"
-EMAIL_HOST="smtp.gmail.com"
-#EMAIL_USE_TLS=True
-EMAIL_PORT=587
-EMAIL_HOST_USER="academiacunoc@gmail.com"
-EMAIL_HOST_PASSWORD="jyjt qwnt ssop tuda"
-
+# Emails
+# EMAIL_BACKEND="django.core.mail.backends.smtp.emailBackEnd"
+EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_USE_TLS=True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "academiacunoc@gmail.com"
+EMAIL_HOST_PASSWORD = "jyjt qwnt ssop tuda"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Si quieres que la sesión persista incluso después de cerrar el navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# Tiempo que la sesión estará activa, en segundos (esto es igual a 2 semanas)
+SESSION_COOKIE_AGE = 1209600
+
+
+LOGIN_URL = '/LoginEstudiantes/'
+LOGIN_REDIRECT_URL = '/home/'

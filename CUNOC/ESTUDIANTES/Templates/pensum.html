@@ -1,0 +1,105 @@
+{% extends "BaseHome.html"%}
+
+{% load static %}
+
+{% block content %}
+
+  <!-- Mostrando mensajes -->
+  {% if messages %}
+  <div class="alert-messages">
+      {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+  <!-- Fin de la sección de mensajes -->
+
+
+
+
+
+  <section class="Bienvenidos a los cursos" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h6>Bienvenido elige tus cursos</h6>
+          <h2>Cursos Disponibles</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="filters">
+                <ul>
+                  <li data-filter="*"  class="active">All Meetings</li>
+                  <li data-filter=".soon">Soon</li>
+                  <li data-filter=".imp">Important</li>
+                  <li data-filter=".att">Attractive</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="row grid">
+
+                <div class="col-lg-3 templatemo-item-col all soon">
+                  <div class="meeting-item">
+                    <div class "row row-cols-1 row-cols-md-3 g-4 my-4">
+                      {% for curso in pensum %}
+                          <div class="thumb">
+                              <div class="price">
+                                <span>Q{{curso.costo}}</span>
+                              </div> 
+                              <a href="meeting-details.html"><img src="{{ curso.imagen.url }}" alt="{{ curso.nombre }}">
+                                <div class="down-content">
+                                  <div class="date">
+                                    <h6>Cupo<span>{{curso.cupo}}</span></h6>
+                                  </div>
+                                  <a href="meeting-details.html"><h4>{{curso.nombre}}</h4></a>
+                                  <p><class="card-text">{{curso.descripcion}}<br><strong>Docente </strong>{{curso.docentes.first_name}} {{curso.docentes.last_name}}</p>
+                                  
+                                
+                                  <div class="card-body" style="text-align: center;">
+                                    <a href="{% url 'inscribir_curso' curso.id  %}"><strong>ASIGNAR</strong></a>
+                                    {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                  </div>
+                                </div>
+                              </a>
+                          </div>
+                      {% endfor %}
+                    </div>  
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="pagination">
+                <ul>
+                  <li><a href="#">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%endblock%}
+

@@ -1,0 +1,66 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="TemplateMo">
+<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+<title>Registro Docentes</title>
+
+<!-- Bootstrap core CSS -->
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="{% static "css/fontawesome.css" %}">
+<link rel="stylesheet" href="{% static "css/templatemo-edu-meeting.css" %}">
+<link rel="stylesheet" href="{% static "css/owl.css" %}">
+<link rel="stylesheet" href="{% static "css/lightbox.css" %}">
+<link rel="stylesheet" href="{% static "css/secciones.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/formato_crispy.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/etiqueta.css' %}">
+
+<!--
+
+TemplateMo 569 Edu Meeting
+
+https://templatemo.com/tm-569-edu-meeting
+
+-->
+</head>
+
+<body>
+    <section class="fondo-docentes">
+        <div class="container">
+        <div>
+            <h1 class="etiqueta-especial" style="top: -50px; right: 0px; color: with;">Registro Docentes</h1>
+        </div>
+{%block content %}
+
+
+{% endblock%} 
+
+		<div class="form-containerRD" style="margin-top: 20px;">
+			<hr>
+				<form method="post" action="" enctype="multipart/form-data" class="crispy-form">
+					{% csrf_token %}
+					{{form|crispy}}
+					{{form2|crispy}}
+					<div class="col text-center" style="margin-top: 20px;">
+						<button class="btn btn-success regular-button">Registrar</button>
+					</div>
+				</form>
+			<hr>
+		</div>
+	</section>
+</body>
+
+</html>
