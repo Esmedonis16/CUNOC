@@ -7,7 +7,7 @@ from django.views.generic import View, TemplateView
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import allusuarios
-from Admin_y_Docentes.models import cursos, EstudianteCurso
+from Admin_y_Docentes.models import cursos, EstudianteCurso, Notas
 #from Admin_y_Docentes.models import cursos
 from django.contrib import messages
 from django.utils.html import strip_tags
@@ -40,14 +40,38 @@ def pensum(request):
     pensum = cursos.objects.filter(cupo__gt=0)
     return render(request, 'pensum.html', {'pensum': pensum})
 
-
+        
 @login_required
 def cursos_asignados(request):
-    usuario_actual = allusuarios.objects.get(user=request.user)  # Obtener el perfil del usuario actual
-    asignaciones = EstudianteCurso.objects.filter(estudiante=usuario_actual, asignado=True)  # Obtener todas las asignaciones para ese usuario que están marcadas como 'asignado'
-        
+    usuario_actual = allusuarios.objects.get(user=request.user)
+    asignaciones = EstudianteCurso.objects.filter(
+        estudiante=usuario_actual,
+        asignado=True
+    ).select_related('curso', 'notas' )  # Esto obtendrá también el objeto del curso relacionado.
 
+    # Ahora recorreremos las asignaciones y obtendremos la nota para cada curso.
+    cursos_y_estados = []
+    for asignacion in asignaciones:
+        nota_curso = Notas.objects.filter(
+            estudiante=usuario_actual,
+            curso=asignacion.curso
+        ).first()
+
+        estado_curso = 'No definido'
+        if nota_curso:
+            estado_curso = 'Aprobado' if nota_curso.nota >= 61 else 'Desaprobado'
+
+        cursos_y_estados.append({
+            'asignacion': asignacion,
+            'estado_curso': estado_curso,
+        })
+
+    context = {
+        'cursos_y_estados': cursos_y_estados,
+    }
     return render(request, 'cursos_asignados.html', {'asignaciones': asignaciones})
+
+
 
 @login_required
 def inscribir_curso(request, curso_id):
