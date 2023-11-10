@@ -85,7 +85,7 @@ class EstudianteCurso(models.Model):
     asignado = models.BooleanField(default=False, verbose_name='Asignado y Pagado')
     
     def __str__(self):
-        return f'{self.estudiante.username} - {self.curso.nombre} '
+        return f'{self.estudiante.username} - {self.curso.nombre}'
 
 
     class Meta:
