@@ -295,7 +295,6 @@ def enviar_mail(nombreusuario, emailusuario):
     send_mail(asunto, mensaje_texto, from_email, [to], html_message=mensaje)
     
     
-# Asegúrate de que is_ajax está definida en alguna parte de tu código o usa esta implementación
 def is_ajax(request):
     return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -303,28 +302,28 @@ def is_ajax(request):
 def find_user_view(request):
     try:
         photo = request.POST.get('photo')
-        format, str_img = photo.split(';base64,')  # Asegúrate de que el split es correcto
-        decoded_file = base64.b64decode(str_img)
+        if photo:
+            format, str_img = photo.split(';base64,')
+            decoded_file = base64.b64decode(str_img)
 
-        # Guardamos la foto en el modelo Log
-        x = Log()
-        x.photo.save('foto_cargada.png', ContentFile(decoded_file))
-        x.save()
+            x = Log()
+            x.photo.save('foto_cargada.png', ContentFile(decoded_file))
+            x.save()
 
-        # Llamada a la función que clasifica la foto
-        res = classify_face(x.photo.path)
-        
-        if res:
-            user_exists = User.objects.filter(username=res).exists()
-            if user_exists:
-                user = User.objects.get(username=res)
-                profile = Profile.objects.get(user=user)
-                x.profile = profile
-                x.save()
-                login(request, user)
-                return JsonResponse({'success': True})
-        return JsonResponse({'success': False})
+            res = classify_face(x.photo.path)
+
+            if res:
+                user_exists = User.objects.filter(username=res).exists()
+                if user_exists:
+                    user = User.objects.get(username=res)
+                    profile = Profile.objects.get(user=user)
+                    x.profile = profile
+                    x.save()
+                    login(request, user)
+                    return JsonResponse({'success': True})
+            return JsonResponse({'success': False})
+        else:
+            return JsonResponse({'error': 'No se proporcionó una imagen válida.'}, status=400)
     
     except Exception as e:
-        # Manejo de cualquier excepción que ocurra durante el proceso
         return JsonResponse({'error': str(e)}, status=500)

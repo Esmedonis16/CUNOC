@@ -52,7 +52,7 @@ if (navigator.mediaDevices.getUserMedia){
 
                     const fd = new FormData()
                     fd.append('csrfmiddlewaretoken', csrftoken)
-                    fd.append('photo', base64data)
+                    fd.append("photo", base64data);
                     
                     $.ajax({
                         type: 'POST',
